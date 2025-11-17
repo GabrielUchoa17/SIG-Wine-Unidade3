@@ -11,10 +11,11 @@
         char dataNascimento[20];
         char endereco[100];
         int status;
+        Assinante *prox;
     };
     void telaAssinante();
     void menuAssinante();
-    void cadastrarAssinante();
+    void cadastrarAssinante(Assinante **lista);
     void checarAssinantes();
     void exibirAssinante(const Assinante* assinante);
     void alterarAssinante();

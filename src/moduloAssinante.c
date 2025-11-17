@@ -11,6 +11,10 @@
 #define AMARELO   "\033[1;33m"
 
 void menuAssinante(){
+
+	
+	Assinante *lista;
+    lista = NULL;
     char opcao[10];
     int crtlAssinante = 1;
     do {
@@ -21,7 +25,7 @@ void menuAssinante(){
         };
        switch (opcao[0]){
         case '1':
-            cadastrarAssinante();
+            cadastrarAssinante(&lista);
         break;
         case '2':
             checarAssinantes();
@@ -71,30 +75,51 @@ void telaAssinante() {
     printf(BRANCO "Digite sua escolha: " RESET);
 }
 
-void cadastrarAssinante(){
-    Assinante* assinante;
-    FILE* arqAssinante;
+void cadastrarAssinante(Assinante **lista) {
+    Assinante *assinante;
+    FILE *arqAssinante;
+
+    
     assinante = salvarAssinantes();
+    if (!assinante) {
+        printf("Erro ao criar assinante.\n");
+        getchar();
+        return;
+    }
     int confirmador = confirmarInfoAss(assinante);
-    if ( confirmador == 1){
-        arqAssinante = fopen("./dados/dadosAssinantes.dat", "ab");
-        if (arqAssinante == NULL){
-            printf("Erro em abrir o arquivo");
-            getchar();
-            return;
-        }
-        fwrite(assinante,sizeof(Assinante), 1,arqAssinante);
-        fclose(arqAssinante);
-        free(assinante);
-        printf("Cadastro realizado com sucesso!\n");
-        printf("\nPressione Enter para voltar \n");
-        getchar();  
-    } else if (confirmador == 2){
-        printf("Cadastro cancelado!\n"); 
+    if (confirmador != 1) {
+        printf("Cadastro cancelado!\n");
         printf("\nPressione Enter para voltar \n");
         getchar();
-    }  
+        free(assinante);
+        return;
+    }
+    if (*lista == NULL) {
+        *lista = assinante;
+        assinante->prox = NULL;
+    } else {
+        Assinante *aux = *lista;
+        while (aux->prox != NULL) {
+            aux = aux->prox;
+        }
+        aux->prox = assinante;
+        assinante->prox = NULL;
+    }
+
+    arqAssinante = fopen("./dados/dadosAssinantes.dat", "ab");
+    if (!arqAssinante) {
+        printf("Erro em abrir o arquivo.\n");
+        getchar();
+        return;
+    }
+    fwrite(assinante, sizeof(Assinante), 1, arqAssinante);
+    fclose(arqAssinante);
+
+    printf("Cadastro realizado com sucesso!\n");
+    printf("\nPressione Enter para voltar \n");
+    getchar();
 }
+
 
 
 void checarAssinantes() {
