@@ -7,7 +7,6 @@
 #include "moduloPlanos.h"
 #include "moduloProdutos.h"
 #include "moduloRelatorios.h"
-#include "moduloFinanceiro.h"
 #include "util.h"
 #include "time.h"
 void tratarString(char string[]){
@@ -577,18 +576,33 @@ int validarIdPlano(const char* id) {
     return validarId(id, 1);
 }
 
-void lerCampo(const char* label, char* destino, int max, int (*validar)(const char*), const char* msgErro) {
-    do {
-        printf("%s ", label);
-        fgets(destino, max, stdin);
-        
-        tratarString(destino);
+void lerCampo(const char* msg, char* destino, int tam,
+              int (*validar)(const char*), const char* erro) {
+    int valido = 0;
 
-        if (!validar(destino)) {
-            printf("%s\n", msgErro);
+    do {
+        printf("%s ", msg);
+        fgets(destino, tam, stdin);
+
+        
+        destino[strcspn(destino, "\n")] = '\0';
+
+        
+        if (validar == NULL) {
+            valido = 1;
         }
-    } while (!validar(destino));
+        else {
+           
+            if (validar(destino)) {
+                valido = 1;
+            } else {
+                printf("%s\n", erro);
+            }
+        }
+
+    } while (!valido);
 }
+
 
 // Créditos: Função Adaptada do Projeto Sig-DietPlan: https://github.com/Thiago-braga7/Sig-DietPlan.git
 int calcularIdade(const char *dataNascimento) {
@@ -611,3 +625,50 @@ int calcularIdade(const char *dataNascimento) {
 
     return idade;
 }
+
+
+int existeAssinante(int id) {
+    FILE* arq = fopen("./dados/dadosAssinantes.dat", "rb");
+    if (!arq) return 0;
+
+    Assinante aux;
+    while (fread(&aux, sizeof(Assinante), 1, arq)) {
+        if (aux.id == id && aux.status == True) {
+            fclose(arq);
+            return 1;
+        }
+    }
+    fclose(arq);
+    return 0;
+}
+
+int existePlano(int id) {
+    FILE* arq = fopen("./dados/dadosPlanos.dat", "rb");
+    if (!arq) return 0;
+
+    Plano aux;
+    while (fread(&aux, sizeof(Plano), 1, arq)) {
+        if (aux.id == id && aux.status == True) {
+            fclose(arq);
+            return 1;
+        }
+    }
+    fclose(arq);
+    return 0;
+}
+int existeProduto(int id) {
+    FILE* arq = fopen("./dados/dadosProdutos.dat", "rb");
+    if (!arq) return 0;
+
+    Produto aux;
+    while (fread(&aux, sizeof(Produto), 1, arq)) {
+        if (aux.id == id && aux.status == True) {
+            fclose(arq);
+            return 1;
+        }
+    }
+
+    fclose(arq);
+    return 0;
+}
+
