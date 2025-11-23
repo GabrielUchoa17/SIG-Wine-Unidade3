@@ -28,6 +28,4 @@
     void alterarAssinanteArquivo(int);
     void atualizarCampoAssinante(int, const char*,int);
     void listarAssinantes(); 
-    
-
 #endif

@@ -7,7 +7,6 @@
     void relatorioAssinaturasPeriodo();
     void relatorioPlanosFaixaPreco();
     void relatorioProdutosPorMarca();
-    void relatorioPlanosPorProduto(void);
-    Produto* buscarProdutoPorID(const char* idBuscado);
-
+    void relatorioPlanosPorProduto();
+    void relatorioAssinaturasPorCPF();
 #endif

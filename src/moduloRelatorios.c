@@ -39,6 +39,9 @@ void menuRelatorios(){
             relatorioPlanosPorProduto();
         break;
         case '6':
+            relatorioAssinaturasPorCPF();
+        break;
+        case '7':
             crtlRelatorio = 0;
         break; 
        default:
@@ -61,7 +64,8 @@ void telaRelatorios(){
     printf("║ 3. Planos (Faixa de Preço)   ║\n");
     printf("║ 4. Produtos por Marca        ║\n");
     printf("║ 5. Planos por Produtos       ║\n");
-    printf("║ 6. Sair                      ║\n");
+    printf("║ 6. Assinaturas por CPF       ║\n");
+    printf("║ 7. Sair                      ║\n");
     printf("╚══════════════════════════════╝\n");
     printf("Digite sua escolha: \n");
 }
@@ -429,32 +433,6 @@ void relatorioProdutosPorMarca() {
     getchar();
 }
 
-
-Produto* buscarProdutoPorID(const char* idBuscado) {
-    FILE* fp = fopen("./dados/dadosProdutos.dat", "rb");
-    if (fp == NULL) {
-        return NULL;
-    }
-
-    Produto* prod = (Produto*) malloc(sizeof(Produto));
-
-    while (fread(prod, sizeof(Produto), 1, fp)) {
-        char idConvertido[20];
-        sprintf(idConvertido, "%d", prod->id);
-
-        if (prod->status == True && strcmp(idConvertido, idBuscado) == 0) {
-            fclose(fp);
-            return prod;  
-        }
-    }
-
-    fclose(fp);
-    free(prod);
-    return NULL; 
-}
-
-
-
 void relatorioPlanosPorProduto(void) {
     FILE* fp = fopen("./dados/dadosPlanos.dat", "rb");
     if (fp == NULL) {
@@ -503,6 +481,86 @@ void relatorioPlanosPorProduto(void) {
     getchar();
 }
 
+void relatorioAssinaturasPorCPF(void) {
+    system("clear||cls");
+
+    char cpfBusca[20];
+    int idAssinanteEncontrado;
+
+    printf("╔══════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                RELATÓRIO: ASSINATURAS POR CPF                ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("Digite o CPF do assinante: ");
+    fgets(cpfBusca, 20, stdin);
+    tratarString(cpfBusca); 
+
+    Assinante* assinanteAlvo = buscarAssinantePorCPF(cpfBusca); 
+    
+    if (assinanteAlvo == NULL) {
+        printf("❌ Assinante não encontrado com o CPF fornecido ou inativo.\n");
+        printf("╚══════════════════════════════════════════════════════════════════════════════╝\n");
+        printf("\nPressione ENTER para continuar...");
+        getchar();
+        return;
+    }
+
+    idAssinanteEncontrado = assinanteAlvo->id;
+    char nomeAssinante[100];
+    strcpy(nomeAssinante, assinanteAlvo->nome);
+    free(assinanteAlvo);
+
+    FILE* fp = fopen("./dados/dadosAssinaturas.dat", "rb");
+    if (fp == NULL) {
+        printf("❌ Erro ao abrir o arquivo de assinaturas!\n");
+        printf("\nPressione ENTER para continuar...");
+        getchar();
+        return;
+    }
+
+    Assinatura assinatura;
+    int encontrouAssinatura = 0;
+
+    printf("\n>>> Assinante: **%-50s** (ID: %d) \n", nomeAssinante, idAssinanteEncontrado);
+    printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║ %-10s | %-15s | %-15s | %-15s ║\n",
+             "ID Ass", "Plano", "Data Assin.", "Período");
+    printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+
+    while (fread(&assinatura, sizeof(Assinatura), 1, fp)) {
+        
+        int idAssinaturaNaStruct = atoi(assinatura.idAssinante); 
+
+        if (assinatura.status == True && idAssinaturaNaStruct == idAssinanteEncontrado) {
+            
+            int idPlano = atoi(assinatura.idPlano);
+            Plano* pl = buscarPlanoPorID(idPlano);
+            char nomePlano[100] = "ID do Plano";
+            if (pl != NULL) {
+                strcpy(nomePlano, pl->nome);
+                free(pl);
+            }
+
+            encontrouAssinatura = 1;
+
+            printf("║ %-10d | %-15s | %-15s | %-14s ║\n",
+                    assinatura.id,
+                    nomePlano,
+                    assinatura.dataAssinatura,
+                    assinatura.periodoVencimento);
+        }
+    }
+
+    if (!encontrouAssinatura) {
+        printf("║ Nenhuma assinatura ativa encontrada para este assinante.                      ║\n");
+    }
+
+    printf("╚══════════════════════════════════════════════════════════════════════════════╝\n");
+
+    fclose(fp);
+
+    printf("\nPressione ENTER para continuar...");
+    getchar();
+}
 
 
 

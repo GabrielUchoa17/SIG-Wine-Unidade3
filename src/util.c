@@ -672,3 +672,60 @@ int existeProduto(int id) {
     return 0;
 }
 
+Assinante* buscarAssinantePorCPF(const char* cpf) {
+    FILE* fp = fopen("./dados/dadosAssinantes.dat", "rb");
+    if (!fp) return NULL;
+
+    Assinante temp;
+    while (fread(&temp, sizeof(Assinante), 1, fp)) {
+        if (temp.status == True && strcmp(temp.cpf, cpf) == 0) {
+            Assinante* x = malloc(sizeof(Assinante));
+            *x = temp;
+            fclose(fp);
+            return x;
+        }
+    }
+
+    fclose(fp);
+    return NULL;
+}
+
+
+Plano* buscarPlanoPorID(int idBusca) {
+    FILE* fp = fopen("./dados/dadosPlanos.dat", "rb");
+    if (!fp) return NULL;
+
+    Plano temp;
+    while (fread(&temp, sizeof(Plano), 1, fp)) {
+        if (temp.status == True && temp.id == idBusca) {
+            Plano* x = malloc(sizeof(Plano));
+            *x = temp;
+            fclose(fp);
+            return x;
+        }
+    }
+
+    fclose(fp);
+    return NULL;
+}
+
+Produto* buscarProdutoPorID(const char* idBuscado) {
+    FILE* fp = fopen("./dados/dadosProdutos.dat", "rb");
+    if (!fp) return NULL;
+
+    Produto temp;
+    while (fread(&temp, sizeof(Produto), 1, fp)) {
+        char idStr[20];
+        sprintf(idStr, "%d", temp.id);
+
+        if (temp.status == True && strcmp(idStr, idBuscado) == 0) {
+            Produto* x = malloc(sizeof(Produto));
+            *x = temp;
+            fclose(fp);
+            return x;
+        }
+    }
+
+    fclose(fp);
+    return NULL;
+}
