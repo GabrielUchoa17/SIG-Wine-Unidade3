@@ -1,5 +1,9 @@
 #ifndef UTIL_H
     #define UTIL_H
+    #include "moduloAssinantes.h"
+    #include "moduloAssinaturas.h"
+    #include "moduloPlanos.h"
+    #include "moduloProdutos.h"
     void tratarString(char[]);
     void inicializarAssinantes(void);
     void inicializarAssinaturas(void);
@@ -36,4 +40,7 @@
     int existeAssinante(int id);
     int existePlano(int id);
     int existeProduto(int id);
+    Assinante* buscarAssinantePorCPF(const char*);
+    Plano* buscarPlanoPorID(int);
+    Produto* buscarProdutoPorID(const char*);
 #endif
