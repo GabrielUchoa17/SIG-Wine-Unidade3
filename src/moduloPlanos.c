@@ -69,8 +69,7 @@ void telaPlano(){
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET "\n");
 
-    printf(BRANCO "Digite sua escolha: " RESET);
-    printf("Digite sua escolha: \n");
+    printf(BRANCO "Digite sua escolha: \n" RESET);
 }
 
 void cadastroPlano(){
@@ -274,24 +273,86 @@ char confirmarInfoPlano(const Plano* plano){
 Plano* recuperarPlano(int idCom){
     FILE *arqPlanos;
     Plano* plano;
-    arqPlanos = fopen("./dados/dadosPlanos.dat", "rt");
+    
+    arqPlanos = fopen("./dados/dadosPlanos.dat", "rb");
     if (arqPlanos == NULL){
-        printf("Erro em Abrir o arquivo");
+        printf("Erro em Abrir o arquivo\n");
         getchar();
         return NULL;
     }
+    
     plano = (Plano*) malloc(sizeof(Plano));
-    while (fread(plano,sizeof(Plano),1,arqPlanos)){
+    if (plano == NULL) {
+        printf("Erro de alocação de memória.\n");
+        fclose(arqPlanos);
+        getchar();
+        return NULL;
+    }
+
+    while (fread(plano, sizeof(Plano), 1, arqPlanos)){
         if((idCom == plano->id) && (plano->status == True)){
             fclose(arqPlanos);
-            return plano;
+            return plano; 
         }
     }
+
     fclose(arqPlanos);
     printf("O plano com o ID %d não foi encontrado\n", idCom);
     getchar();
-    free(plano);
+    
+    free(plano); 
     return NULL;
+}
+
+Plano* quantidadePlanos(void) {
+    FILE *arqPlanos;
+    Plano *planoLido;
+    Plano *lista = NULL; 
+    Plano *ultimo = NULL; 
+
+    arqPlanos = fopen("./dados/dadosPlanos.dat", "rb");
+    if (arqPlanos == NULL) {
+        return NULL;
+    }
+
+    planoLido = (Plano*) malloc(sizeof(Plano));
+    if (planoLido == NULL) {
+        fclose(arqPlanos);
+        return NULL;
+    }
+
+    while (fread(planoLido, sizeof(Plano), 1, arqPlanos)) {
+        if (planoLido->status == 1) { 
+            
+            Plano *novoPlano = (Plano*) malloc(sizeof(Plano));
+            if (novoPlano == NULL) {
+                free(planoLido);
+                fclose(arqPlanos);
+                
+                Plano *atual = lista;
+                while (atual != NULL) {
+                    Plano *temp = atual->prox;
+                    free(atual);
+                    atual = temp;
+                }
+                return NULL;
+            }
+            
+            memcpy(novoPlano, planoLido, sizeof(Plano));
+            novoPlano->prox = NULL; 
+
+            if (lista == NULL) {
+                lista = novoPlano;
+            } else {
+                ultimo->prox = novoPlano;
+            }
+            ultimo = novoPlano;
+        }
+    }
+    
+    free(planoLido);
+    fclose(arqPlanos);
+    return lista;
 }
 
 void excluirPlanoArquivo(int idCom){

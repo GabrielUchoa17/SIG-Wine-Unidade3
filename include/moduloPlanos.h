@@ -10,6 +10,7 @@
         char periodo[20];
         char idProduto[20];
         int status;
+        struct plano* prox; 
     };
     void telaPlano(void);
     void menuPlanos(void);
@@ -27,6 +28,7 @@
     void alterarPlanoArquivo(int);
     void atualizarCampoPlano(int, const char*, int);
     void listarPlanos(void);
+    Plano* quantidadePlanos();
 
 
 #endif

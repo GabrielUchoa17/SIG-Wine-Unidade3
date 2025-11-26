@@ -9,4 +9,5 @@
     void relatorioProdutosPorMarca();
     void relatorioPlanosPorProduto();
     void relatorioAssinaturasPorCPF();
+    void relatorioPlanosPorPeriodo();
 #endif

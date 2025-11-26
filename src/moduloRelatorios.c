@@ -42,6 +42,9 @@ void menuRelatorios(){
             relatorioAssinaturasPorCPF();
         break;
         case '7':
+            relatorioPlanosPorPeriodo();
+        break;
+        case '8':
             crtlRelatorio = 0;
         break; 
        default:
@@ -65,7 +68,8 @@ void telaRelatorios(){
     printf("║ 4. Produtos por Marca        ║\n");
     printf("║ 5. Planos por Produtos       ║\n");
     printf("║ 6. Assinaturas por CPF       ║\n");
-    printf("║ 7. Sair                      ║\n");
+    printf("║ 7. Planos por Período(Direta)║\n");
+    printf("║ 8. Sair                      ║\n");
     printf("╚══════════════════════════════╝\n");
     printf("Digite sua escolha: \n");
 }
@@ -562,6 +566,62 @@ void relatorioAssinaturasPorCPF(void) {
     getchar();
 }
 
+void relatorioPlanosPorPeriodo(void){
+    system("clear||cls");
+
+    Plano* lista = quantidadePlanos();
+    Plano* pl = lista;
+
+    if (lista == NULL) {
+        printf("Nenhum plano ativo encontrado ou erro ao ler o arquivo!\n");
+        printf("\nPressione ENTER para voltar ao menu...\n");
+        getchar(); 
+        return; 
+    }
+
+    int quantidadeMensal = 0;
+    int quantidadeTrimestral = 0;
+    int quantidadeSemestral = 0;
+    int quantidadeAnual = 0;
+
+    while( pl != NULL){
+        char letra = toupper(pl->periodo[0]);
+
+        if(letra == 'M'){
+            quantidadeMensal++;
+        } else if(letra == 'T') {
+            quantidadeTrimestral++;
+        } else if(letra == 'S'){
+            quantidadeSemestral++;
+        } else if(letra == 'A'){
+            quantidadeAnual++;
+        }
+        pl = pl->prox;
+    }
+    
+    printf("╔══════════════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                             RELATÓRIO: PLANOS POR PERÍODO                                ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║ %-15s │ %-10s │ %-12s │ %-12s │ %-10s ║\n", 
+        "Categoria", "Mensal", "Trimestral", "Semestral", "Anual");
+    printf("╠══════════════════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║ %-15s │ %-10d │ %-12d │ %-12d │ %-10d ║\n",
+        "Quantidade",
+        quantidadeMensal,
+        quantidadeTrimestral,
+        quantidadeSemestral,
+        quantidadeAnual);
+    printf("╚══════════════════════════════════════════════════════════════════════════════════════════╝\n");
+
+    pl = lista;
+    while(pl != NULL){
+        Plano* temp = pl->prox;
+        free(pl);
+        pl = temp;
+    }
+    printf("\nPressione ENTER para voltar ao menu...");
+    getchar();
+}
 
 
 
