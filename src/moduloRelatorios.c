@@ -15,6 +15,8 @@
 
 void menuRelatorios(){
     char opcao[10];
+    Assinante *lista;
+    lista = NULL;
     int crtlRelatorio = 1;
     do {
         telaRelatorios();
@@ -48,6 +50,10 @@ void menuRelatorios(){
             relatorioProdutosPorAno();
             break;
         case '9':
+            assinantesOrdemAlfabetica(&lista);
+            telaAssinantesOrdemAlfabetica(lista);
+            break;
+        case '0':
             crtlRelatorio = 0;
         break; 
        default:
@@ -73,7 +79,8 @@ void telaRelatorios(){
     printf("║ 6. Assinaturas por CPF                  ║\n");
     printf("║ 7. Planos por Período(Direta)           ║\n");
     printf("║ 8. Produtos por Ano de produção(Inversa)║\n");
-    printf("║ 9. Sair                                 ║\n");
+    printf("║ 9. Assinantes(Ordem Alfabética)         ║\n");
+    printf("║ 0. Sair                                 ║\n");
     printf("╚═════════════════════════════════════════╝\n");
     printf("Digite sua escolha: \n");
 }
@@ -627,11 +634,6 @@ void relatorioPlanosPorPeriodo(void){
     getchar();
 }
 
-
-
-
-
-
 void relatorioProdutosPorAno(void) {
     FILE *fp = fopen("./dados/dadosProdutos.dat", "rb");
     if (!fp) {
@@ -732,3 +734,94 @@ void relatorioProdutosPorAno(void) {
     printf("\nPressione ENTER para voltar...\n");
     getchar();
 }
+
+void apagarLista(Assinante **lista){ //FUNÇÃO COPIADA DO PROJETO língua.solta de Flávius Gorgônio
+    Assinante *assinante;
+    
+    while (*lista != NULL){
+        assinante = *lista;
+        *lista = (*lista)->prox;
+        free(assinante);
+    }
+       
+}
+
+void assinantesOrdemAlfabetica(Assinante **lista) {
+    FILE *fp;
+    Assinante *assinante;
+
+
+    apagarLista(lista);
+    *lista = NULL;
+
+    fp = fopen("./dados/dadosAssinantes.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de assinantes!\n");
+        exit(1);
+    }
+
+
+
+    assinante = (Assinante*) malloc(sizeof(Assinante));
+
+    while (fread(assinante, sizeof(Assinante), 1, fp)) {
+
+        if ((*lista == NULL) || (strcmp(assinante->nome, (*lista)->nome) < 0)) {
+            assinante->prox = *lista;
+            *lista = assinante;
+        } else {
+            Assinante *ant = *lista;
+            Assinante *atu = (*lista)->prox;
+
+            while (atu != NULL && strcmp(atu->nome, assinante->nome) < 0) {
+                ant = atu;
+                atu = atu->prox;
+            }
+
+            ant->prox = assinante;
+            assinante->prox = atu;
+        }
+
+        assinante = (Assinante*) malloc(sizeof(Assinante));
+    }
+
+    free(assinante);
+    fclose(fp);
+}
+
+void telaAssinantesOrdemAlfabetica(Assinante *aux) {
+    int count = 0;
+    int encontrou = 0;
+
+    system("clear||cls");
+
+    printf("╔══════════════════════════════════════════════════════════════════╗\n");
+    printf("║            LISTA DE ASSINANTES - ORDEM ALFABÉTICA                ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+
+    printf("┌────┬────────────────────────────┬────────────────────────────────┐\n");
+    printf("│ Nº │ Nome                       │ CPF                            │\n");
+    printf("├────┼────────────────────────────┼────────────────────────────────┤\n");
+
+    while (aux != NULL) {
+        if (aux->status == True) {
+            encontrou = 1;
+            count++;
+            printf("│ %-2d │ %-26.26s │ %-30.30s │\n",
+                   count, aux->nome, aux->cpf);
+        }
+        aux = aux->prox;
+    }
+
+    if (!encontrou) {
+        printf("│ %-63s │\n", "Nenhum assinante encontrado.");
+    }
+
+    printf("└────┴────────────────────────────┴────────────────────────────────┘\n");
+
+    printf("\nPressione ENTER para continuar...");
+    getchar();
+}
+
+
+
