@@ -10,4 +10,5 @@
     void relatorioPlanosPorProduto();
     void relatorioAssinaturasPorCPF();
     void relatorioPlanosPorPeriodo();
+    void relatorioProdutosPorAno();
 #endif

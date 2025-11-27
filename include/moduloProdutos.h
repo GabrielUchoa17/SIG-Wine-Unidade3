@@ -10,6 +10,7 @@
         char marca[100];
         char anoProducao[20];
         int status;
+        struct produto *prox; 
     };
     void telaProdutos(void);
     void menuProdutos(void);
