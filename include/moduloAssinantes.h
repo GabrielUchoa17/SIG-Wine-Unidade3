@@ -11,6 +11,7 @@
         char dataNascimento[20];
         char endereco[100];
         int status;
+        struct assinante *prox; 
     };
     void telaAssinante();
     void menuAssinante();
