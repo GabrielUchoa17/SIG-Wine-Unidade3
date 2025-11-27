@@ -41,9 +41,9 @@ void menuProdutos(){
             crtlProduto = 0;
         break; 
        default:
-            printf("Você inseriu uma opção inválida\n");
-            printf("\nPressione Enter para tentar novamente \n");
-            while (getchar() != '\n')
+            printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+            printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
+            while (getchar() != '\n');
         break;
        }
     }   
@@ -52,24 +52,24 @@ void menuProdutos(){
 
 void telaProdutos(){
     system("clear||cls");
-    printf(CINZA);
+    printf(BRANCO);
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                  ║\n");
-    printf("║                 " AMARELO "M Ó D U L O   D E   P R O D U T O S" CINZA "              ║\n");
+    printf("║                 " AMARELO "M Ó D U L O   D E   P R O D U T O S" BRANCO "              ║\n");
     printf("║                                                                  ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
 
-    printf("║   " AMARELO "1." BRANCO " Cadastrar Produtos                            " CINZA "              ║\n");
-    printf("║   " AMARELO "2." BRANCO " Checar Produtos                                 " CINZA "            ║\n");
-    printf("║   " AMARELO "3." BRANCO " Alterar Produtos                                " CINZA "            ║\n");
-    printf("║   " AMARELO "4." BRANCO " Excluir Produtos                                " CINZA "            ║\n");
-    printf("║   " AMARELO "5." BRANCO " Listar Produtos                                  " CINZA "           ║\n");
-    printf("║   " AMARELO "6." BRANCO " Voltar                                           " CINZA "           ║\n");
+    printf("║   " AMARELO "1." BRANCO " Cadastrar Produtos                            " BRANCO "              ║\n");
+    printf("║   " AMARELO "2." BRANCO " Checar Produtos                                 " BRANCO "            ║\n");
+    printf("║   " AMARELO "3." BRANCO " Alterar Produtos                                " BRANCO "            ║\n");
+    printf("║   " AMARELO "4." BRANCO " Excluir Produtos                                " BRANCO "            ║\n");
+    printf("║   " AMARELO "5." BRANCO " Listar Produtos                                  " BRANCO "           ║\n");
+    printf("║   " AMARELO "6." BRANCO " Voltar                                           " BRANCO "           ║\n");
 
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET "\n");
 
-    printf("Digite sua escolha: \n");
+    printf(BRANCO "Digite sua escolha: \n" RESET);
 }
 
 
@@ -81,19 +81,19 @@ void cadastroProduto(){
     if ( confirmador == 1){
         arqProduto = fopen("./dados/dadosProdutos.dat", "ab");
         if (arqProduto == NULL){
-            printf("Erro em abrir o arquivo");
+            printf(VERMELHO "Erro em abrir o arquivo" RESET);
             getchar();
             return;
         }
         fwrite(produto,sizeof(Produto), 1,arqProduto);
         fclose(arqProduto);
         free(produto);
-        printf("Cadastro realizado com sucesso!\n");
-        printf("\nPressione Enter para voltar \n");
+        printf(CIANO "Cadastro realizado com sucesso!\n" RESET);
+        printf(CINZA "\nPressione Enter para voltar \n" RESET);
         getchar();  
     } else if (confirmador == 2){
-        printf("Cadastro cancelado!\n"); 
-        printf("\nPressione Enter para voltar \n");
+        printf(VERMELHO "Cadastro cancelado!\n" RESET); 
+        printf(CINZA "\nPressione Enter para voltar \n" RESET);
         getchar();
     }  
 }
@@ -103,7 +103,7 @@ void checarProdutos() {
     int idCom;
     Produto* produto;
 
-    printf("Insira o id do produto: \n");
+    printf(BRANCO "Insira o id do produto: \n" RESET);
     scanf("%d", &idCom);
     getchar();
 
@@ -111,28 +111,29 @@ void checarProdutos() {
 
     if (produto != NULL) {
         exibirProduto(produto);
-        printf("\nPressione Enter para voltar ao módulo de produto\n");
+        printf(CINZA "\nPressione Enter para voltar ao módulo de produto\n" RESET);
         getchar();
     } else {
-        printf("Produto não encontrado.\n");
+        printf(VERMELHO "Produto não encontrado.\n" RESET);
     }
 }
 
 
 void exibirProduto(const Produto* produto) {
-    printf(VERMELHO); 
+    system("clear||cls");
+    printf(BRANCO); 
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
-    printf("║                              PRODUTO                               ║\n");
+    printf("║              " AMARELO "D A D O S   D O   P R O D U T O" BRANCO "                     ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf(RESET);
 
-    printf(CIANO "║ Id: %-59d ║\n" RESET, produto->id);
-    printf(CIANO "║ Nome: %-58s ║\n" RESET, produto->nome);
-    printf(CIANO "║ Tipo: %-58s ║\n" RESET, produto->tipo);
-    printf(CIANO "║ Marca: %-57s ║\n" RESET, produto->marca);
-    printf(CIANO "║ Ano de Produção: %-48s ║\n" RESET, produto->anoProducao);
+    printf(CINZA "║ Id: %-60d ║\n" RESET, produto->id);
+    printf(BRANCO "║ Nome: %-58s ║\n" RESET, produto->nome);
+    printf(BRANCO "║ Tipo: %-58s ║\n" RESET, produto->tipo);
+    printf(BRANCO "║ Marca: %-57s ║\n" RESET, produto->marca);
+    printf(BRANCO "║ Ano de Produção: %-47s ║\n" RESET, produto->anoProducao);
 
-    printf(VERMELHO);
+    printf(BRANCO);
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET);
 }
@@ -144,7 +145,7 @@ void alterarProduto(){
     char idCom[10];
     Produto* produto;
 
-    printf("Insira o id do produto que você deseja alterar: \n");
+    printf(BRANCO "Insira o id do produto que você deseja alterar: \n" RESET);
     fgets(idCom, 10, stdin);
     tratarString(idCom);
 
@@ -159,7 +160,9 @@ void alterarProduto(){
             
             exibirProduto(produto);
 
-            printf("\nDeseja realmente alterar esse produto?\n1. Sim\n2. Não\n");
+            printf(BRANCO "\nDeseja realmente alterar esse produto?\n" RESET);
+            printf(AMARELO "1. Sim\n" RESET);
+            printf(VERMELHO "2. Não\n" RESET);
             fgets(opcao, 10, stdin);
             
             if (opcao[1] != '\n'){
@@ -172,11 +175,12 @@ void alterarProduto(){
                     controle = 0;
                     break;
                 case '2':
+                    printf(CINZA "Alteração cancelada.\n" RESET);
                     controle = 0;
                     break;
                 default:
-                    printf("Você inseriu uma opção inválida\n");
-                    printf("\nPressione Enter para tentar novamente \n");
+                    printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+                    printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
                     getchar();
                     break;
             }
@@ -192,7 +196,7 @@ void excluirProduto(){
     int controle = 1;
     char idCom[10];
     Produto* produto;
-    printf("Insira o id do produto que você deseja excluir: \n");
+    printf(BRANCO "Insira o id do produto que você deseja excluir: \n" RESET);
     fgets(idCom, 10, stdin);
     tratarString(idCom);
     if (!(validarId(idCom,3))){
@@ -203,7 +207,9 @@ void excluirProduto(){
         if (produto != NULL){
             exibirProduto(produto);
             
-            printf("\nDeseja realmente apagar esse produto?\n1. Sim\n2. Não\n");
+            printf(BRANCO "\nDeseja realmente apagar esse produto?\n" RESET);
+            printf(VERMELHO "1. Sim\n" RESET);
+            printf(AMARELO "2. Não\n" RESET);
             fgets(opcao,10,stdin);
             if (opcao[1] != '\n'){
                 opcao[0] = 'l';
@@ -214,11 +220,12 @@ void excluirProduto(){
                     controle = 0;
                 break;
                 case '2':
+                    printf(CINZA "Exclusão cancelada.\n" RESET);
                     controle = 0;
                 break;
                 default:
-                    printf("Você inseriu uma opção inválida\n");
-                    printf("\nPressione Enter para tentar novamente \n");
+                    printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+                    printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
                     getchar();
                 break;
             }
@@ -233,19 +240,19 @@ char confirmarInfoProd(const Produto* produto){
     char opcao[10];
     int controleCI = 1;
     do {
-        printf("╔═════════════════════════════╗\n");
-        printf("║          Confirmação        ║\n");
-        printf("╠═════════════════════════════╝\n");
-        printf("║ Id: %d \n", produto->id);
-        printf("║ Nome: %s \n", produto->nome);
-        printf("║ Tipo: %s \n", produto->tipo);
-        printf("║ Marca: %s \n", produto->marca);
-        printf("║ Ano de Produção: %s \n", produto->anoProducao);
-        printf("╠═════════════════════════════╗\n");
-        printf("║ Deseja manter essas infos?  ║\n");
-        printf("║ 1. Sim                      ║\n");
-        printf("║ 2. Não                      ║\n");
-        printf("╚═════════════════════════════╝\n");
+        printf(CIANO "╔═════════════════════════════╗\n" RESET);
+        printf(CIANO "║          " AMARELO "Confirmação" CIANO "        ║\n" RESET);
+        printf(CIANO "╠═════════════════════════════╝\n" RESET);
+        printf(BRANCO "║ Id: %d \n" RESET, produto->id);
+        printf(BRANCO "║ Nome: %s \n" RESET, produto->nome);
+        printf(BRANCO "║ Tipo: %s \n" RESET, produto->tipo);
+        printf(BRANCO "║ Marca: %s \n" RESET, produto->marca);
+        printf(BRANCO "║ Ano de Produção: %s \n" RESET, produto->anoProducao);
+        printf(CIANO "╠═════════════════════════════╗\n" RESET);
+        printf(BRANCO "║ Deseja manter essas infos?  ║\n" RESET);
+        printf(AMARELO "║ 1. Sim                      ║\n" RESET);
+        printf(VERMELHO "║ 2. Não                      ║\n" RESET);
+        printf(CIANO "╚═════════════════════════════╝\n" RESET);
         fgets(opcao,10, stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -260,7 +267,8 @@ char confirmarInfoProd(const Produto* produto){
                 return 2;
                 break;
             default:
-                printf("\nPressione Enter para tentar novamente \n");
+                printf(VERMELHO "Opção inválida.\n" RESET);
+                printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
                 getchar();
                 break;        
         }
@@ -274,7 +282,7 @@ Produto* recuperarProduto(int idCom){
     Produto* produto;
     arqProdutos = fopen("./dados/dadosProdutos.dat", "rt");
     if (arqProdutos == NULL){
-        printf("Erro em Abrir o arquivo");
+        printf(VERMELHO "Erro em Abrir o arquivo" RESET);
         getchar();
         return NULL;
     }
@@ -286,7 +294,7 @@ Produto* recuperarProduto(int idCom){
         }
     }
     fclose(arqProdutos);
-    printf("O produto com o ID %d não foi encontrado\n", idCom);
+    printf(VERMELHO "O produto com o ID %d não foi encontrado\n" RESET, idCom);
     getchar();
     free(produto);
     return NULL;
@@ -297,7 +305,7 @@ void excluirProdutoArquivo(int idCom){
     Produto* produto;
     arqProdutos = fopen("./dados/dadosProdutos.dat", "r+b");
     if (arqProdutos == NULL){
-        printf("Falha na manipulação dos arquivos");
+        printf(VERMELHO "Falha na manipulação dos arquivos" RESET);
         getchar();
         return;
     }
@@ -311,8 +319,8 @@ void excluirProdutoArquivo(int idCom){
             fclose(arqProdutos);
             free(produto);
 
-            printf("Produto excluído com sucesso.\n");
-            printf("Aperte Enter para voltar ao menu.\n");
+            printf(VERMELHO "Produto excluído com sucesso.\n" RESET);
+            printf(CINZA "Aperte Enter para voltar ao menu.\n" RESET);
             getchar();
             return;  
         }
@@ -321,7 +329,6 @@ void excluirProdutoArquivo(int idCom){
     fclose(arqProdutos);
     free(produto);
 }
-
 
 
  
@@ -335,41 +342,41 @@ Produto* salvarProdutos() {
     produto->id = recuperarIdProdutos();
 
     do {
-        printf("Insira o nome:\n");
+        printf(BRANCO "Insira o nome:\n" RESET);
         fgets(produto->nome, 20, stdin);
         tratarString(produto->nome);
 
         if (!validarNomeObjeto(produto->nome)) {
-            printf("❌ Nome inválido! Digite novamente.\n");
+            printf(VERMELHO "❌ Nome inválido! Digite novamente.\n" RESET);
         }
     } while (!validarNomeObjeto(produto->nome));
 
     do {
-        printf("Insira o tipo:\n");
+        printf(BRANCO "Insira o tipo:\n" RESET);
         fgets(produto->tipo, 20, stdin);
         tratarString(produto->tipo);
         if (!validarTipo(produto->tipo)) {
-            printf("❌ Tipo inválido! Use apenas letras e espaços.\n");
+            printf(VERMELHO "❌ Tipo inválido! Use apenas letras e espaços.\n" RESET);
         }
     } while (!validarTipo(produto->tipo));
 
 
     do {
-        printf("Insira a marca:\n");
+        printf(BRANCO "Insira a marca:\n" RESET);
         fgets(produto->marca, 20, stdin);
         tratarString(produto->marca);
         if (!validarMarca(produto->marca)) {
-            printf("❌ Marca inválida! Use apenas letras, números e espaços.\n");
+            printf(VERMELHO "❌ Marca inválida! Use apenas letras, números e espaços.\n" RESET);
         }
     } while (!validarMarca(produto->marca));
 
     do {
-        printf("Insira o ano de produção (ex: 2023):\n");
+        printf(BRANCO "Insira o ano de produção (ex: 2023):\n" RESET);
         fgets(produto->anoProducao, 20, stdin);
         tratarString(produto->anoProducao);
 
         if (!validarAnoProducao(produto->anoProducao)) {
-            printf("❌ Ano inválido! Digite um ano entre 1900 e 2025.\n");
+            printf(VERMELHO "❌ Ano inválido! Digite um ano entre 1900 e 2025.\n" RESET);
         }
     } while (!validarAnoProducao(produto->anoProducao));
 
@@ -382,8 +389,9 @@ void alterarProdutoArquivo(int idCom){
     int controle = 1;
     system("clear||cls");
     do {
-        printf("║Qual campo você quer alterar?\n");
-        printf("║1. Nome\n║2. Tipo\n║3. Marca\n║4.Ano de Produção\n║5. Sair\n");
+        printf(CIANO "║Qual campo você quer alterar?\n" RESET);
+        printf(BRANCO "║1. Nome\n║2. Tipo\n║3. Marca\n║4.Ano de Produção\n" RESET);
+        printf(AMARELO "║5. Sair\n" RESET);
         fgets(opcao,10,stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -392,11 +400,11 @@ void alterarProdutoArquivo(int idCom){
         case '1':
             char nomeNovo[100];
             do {
-                printf("Insira o nome:\n");
+                printf(BRANCO "Insira o nome:\n" RESET);
                 fgets(nomeNovo, 20, stdin);
                 tratarString(nomeNovo);
                 if (!validarNomeObjeto(nomeNovo)) {
-                    printf("❌ Nome inválido! Digite novamente.\n");
+                    printf(VERMELHO "❌ Nome inválido! Digite novamente.\n" RESET);
                 }
             } while (!validarNomeObjeto(nomeNovo));
             atualizarCampoProduto(idCom, nomeNovo, 1);
@@ -405,11 +413,11 @@ void alterarProdutoArquivo(int idCom){
         case '2':
             char tipoNovo[20];
             do {
-                printf("Insira o tipo:\n");
+                printf(BRANCO "Insira o tipo:\n" RESET);
                 fgets(tipoNovo, 20, stdin);
                 tratarString(tipoNovo);
                 if (!validarTipo(tipoNovo)) {
-                    printf("❌ Tipo inválido! Use apenas letras e espaços.\n");
+                    printf(VERMELHO "❌ Tipo inválido! Use apenas letras e espaços.\n" RESET);
                 }
             } while (!validarTipo(tipoNovo));
             atualizarCampoProduto(idCom, tipoNovo, 2);
@@ -418,11 +426,11 @@ void alterarProdutoArquivo(int idCom){
         case '3':
             char marcaNovo[20];
             do {
-                printf("Insira a marca:\n");
+                printf(BRANCO "Insira a marca:\n" RESET);
                 fgets(marcaNovo, 20, stdin);
                 tratarString(marcaNovo);
                 if (!validarMarca(marcaNovo)) {
-                    printf("❌ Marca inválida! Use apenas letras, números e espaços.\n");
+                    printf(VERMELHO "❌ Marca inválida! Use apenas letras, números e espaços.\n" RESET);
                 }
             } while (!validarMarca(marcaNovo));
             atualizarCampoProduto(idCom, marcaNovo, 3);
@@ -431,23 +439,23 @@ void alterarProdutoArquivo(int idCom){
         case '4':
             char anoProdNovo[20];
             do {
-                printf("Insira o ano de produção (ex: 2023):\n");
+                printf(BRANCO "Insira o ano de produção (ex: 2023):\n" RESET);
                 fgets(anoProdNovo, 20, stdin);
                 tratarString(anoProdNovo);
 
                 if (!validarAnoProducao(anoProdNovo)) {
-                    printf("❌ Ano inválido! Digite um ano entre 1900 e 2025.\n");
+                    printf(VERMELHO "❌ Ano inválido! Digite um ano entre 1900 e 2025.\n" RESET);
                 }
             } while (!validarAnoProducao(anoProdNovo));
-            atualizarCampoProduto(idCom, marcaNovo, 3);
+            atualizarCampoProduto(idCom, anoProdNovo, 4); // Corrigido: 'marcaNovo' para 'anoProdNovo' e tipoCampo para 4
             controle = 0;
         break;
         case '5':
             controle = 0;
         break; 
        default:
-            printf("Você inseriu uma opção inválida\n");
-            printf("\nPressione Enter para tentar novamente \n");
+            printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+            printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
             getchar();
         break;
        }
@@ -458,7 +466,7 @@ void alterarProdutoArquivo(int idCom){
 void atualizarCampoProduto(int idCom, const char* novoValor, int tipoCampo) {
     FILE *arqProdutos = fopen("./dados/dadosProdutos.dat", "r+b");
     if (arqProdutos == NULL) {
-        printf("Falha na manipulação dos arquivos");
+        printf(VERMELHO "Falha na manipulação dos arquivos" RESET);
         getchar();
         return;
     }
@@ -483,8 +491,8 @@ void atualizarCampoProduto(int idCom, const char* novoValor, int tipoCampo) {
             }  
             fseek(arqProdutos, -1 * sizeof(Produto), SEEK_CUR);
             fwrite(produto, sizeof(Produto), 1, arqProdutos);        
-            printf("Produto alterado com sucesso\n");
-            printf("Aperte enter para voltar ao menu\n");
+            printf(CIANO "Produto alterado com sucesso\n" RESET);
+            printf(CINZA "Aperte enter para voltar ao menu\n" RESET);
             getchar();    
             free(produto);
             fclose(arqProdutos);
@@ -492,7 +500,7 @@ void atualizarCampoProduto(int idCom, const char* novoValor, int tipoCampo) {
         }
     }
     
-    printf("Produto não encontrado!\n");
+    printf(VERMELHO "Produto não encontrado!\n" RESET);
     free(produto);
     fclose(arqProdutos);
 }
@@ -504,16 +512,16 @@ void listarProdutos(void) {
 
     system("clear||cls");
 
-    printf(CIANO);
+    printf(BRANCO);
     printf("╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                                             LISTAGEM DE PRODUTOS                                                     ║\n");
+    printf("║                                        " AMARELO "L I S T A G E M   D E   P R O D U T O S" BRANCO "                                         ║\n");
     printf("╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣\n");
     printf(RESET);
 
     arqProduto = fopen("./dados/dadosProdutos.dat", "rb");
     if (arqProduto == NULL) {
         printf(VERMELHO "❌ Erro ao abrir o arquivo de produtos!\n" RESET);
-        printf("Pressione Enter para voltar.\n");
+        printf(CINZA "Pressione Enter para voltar.\n" RESET);
         getchar();
         return;
     }
@@ -521,15 +529,15 @@ void listarProdutos(void) {
     produto = (Produto*) malloc(sizeof(Produto));
     int encontrou = 0;
 
-    printf("┌────────┬────────────────────────────┬────────────────────────────┬────────────────────────────┬────────────────────────┐\n");
-    printf("│   ID   │ Nome                       │ Tipo                       │ Marca                      │ Ano de Produção        │\n");
-    printf("├────────┼────────────────────────────┼────────────────────────────┼────────────────────────────┼────────────────────────┤\n");
+    printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────────┬────────────────────────────┬────────────────────────┐\n" RESET);
+    printf(AMARELO "│   ID   │ Nome                       │ Tipo                       │ Marca                      │ Ano de Produção        │\n" RESET);
+    printf(BRANCO "├────────┼────────────────────────────┼────────────────────────────┼────────────────────────────┼────────────────────────┤\n" RESET);
 
    
     while (fread(produto, sizeof(Produto), 1, arqProduto)) {
         if (produto->status == True) {
             encontrou = 1;
-            printf("│ %-6d │ %-26.26s │ %-26.26s │ %-26.26s │ %-22.22s │\n",
+            printf(BRANCO "│ " CIANO "%-6d" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │ " BRANCO "%-22.22s" BRANCO " │\n" RESET,
                    produto->id,
                    produto->nome,
                    produto->tipo,
@@ -539,15 +547,15 @@ void listarProdutos(void) {
     }
 
     if (encontrou) {
-        printf("└────────┴────────────────────────────┴────────────────────────────┴────────────────────────────┴────────────────────────┘\n");
+        printf(CINZA "└────────┴────────────────────────────┴────────────────────────────┴────────────────────────────┴────────────────────────┘\n" RESET);
     } else {
-        printf("│ %-108s │\n", "Nenhum produto encontrado.");
-        printf("└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n");
+        printf(BRANCO "│ " VERMELHO "%-108s" BRANCO " │\n" RESET, "Nenhum produto encontrado.");
+        printf(CINZA "└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n" RESET);
     }
 
     fclose(arqProduto);
     free(produto);
 
-    printf("\nPressione Enter para voltar ao menu.\n");
+    printf(CINZA "\nPressione Enter para voltar ao menu.\n" RESET);
     getchar();
 }

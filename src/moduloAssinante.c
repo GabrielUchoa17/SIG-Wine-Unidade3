@@ -39,8 +39,8 @@ void menuAssinante(){
             crtlAssinante = 0;
         break; 
        default:
-            printf("Você inseriu uma opção inválida\n");
-            printf("\nPressione Enter para tentar novamente \n");
+            printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+            printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
             getchar();
         break;
        }
@@ -51,19 +51,19 @@ void menuAssinante(){
 void telaAssinante() {
     system("clear||cls");
 
-    printf(CINZA);
+    printf(BRANCO);
     printf("╔════════════════════════════════════════════════════════╗\n");
     printf("║                                                        ║\n");
-    printf("║             " AMARELO "M Ó D U L O   D E   A S S I N A N T E S" CINZA "    ║\n");
+    printf("║         " AMARELO "M Ó D U L O   D E   A S S I N A N T E S" BRANCO "        ║\n"); // Título em Amarelo
     printf("║                                                        ║\n");
     printf("╠════════════════════════════════════════════════════════╣\n");
 
-    printf("║   " AMARELO "1." BRANCO " Cadastrar Assinantes                           " CINZA "   ║\n");
-    printf("║   " AMARELO "2." BRANCO " Checar Assinantes                              " CINZA "   ║\n");
-    printf("║   " AMARELO "3." BRANCO " Alterar Assinantes                             " CINZA "   ║\n");
-    printf("║   " AMARELO "4." BRANCO " Excluir Assinantes                             " CINZA "   ║\n");
-    printf("║   " AMARELO "5." BRANCO " Listar Assinantes                              " CINZA "   ║\n");
-    printf("║   " AMARELO "6." BRANCO " Voltar                                         " CINZA "   ║\n");
+    printf("║   " AMARELO "1." BRANCO " Cadastrar Assinantes                           " BRANCO "   ║\n");
+    printf("║   " AMARELO "2." BRANCO " Checar Assinantes                              " BRANCO "   ║\n");
+    printf("║   " AMARELO "3." BRANCO " Alterar Assinantes                             " BRANCO "   ║\n");
+    printf("║   " AMARELO "4." BRANCO " Excluir Assinantes                             " BRANCO "   ║\n");
+    printf("║   " AMARELO "5." BRANCO " Listar Assinantes                              " BRANCO "   ║\n");
+    printf("║   " AMARELO "6." BRANCO " Voltar                                         " BRANCO "   ║\n");
 
     printf("╚════════════════════════════════════════════════════════╝\n");
     printf(RESET "\n");
@@ -79,19 +79,19 @@ void cadastrarAssinante(){
     if ( confirmador == 1){
         arqAssinante = fopen("./dados/dadosAssinantes.dat", "ab");
         if (arqAssinante == NULL){
-            printf("Erro em abrir o arquivo");
+            printf(VERMELHO "Erro em abrir o arquivo" RESET);
             getchar();
             return;
         }
         fwrite(assinante,sizeof(Assinante), 1,arqAssinante);
         fclose(arqAssinante);
         free(assinante);
-        printf("Cadastro realizado com sucesso!\n");
-        printf("\nPressione Enter para voltar \n");
+        printf(CIANO "Cadastro realizado com sucesso!\n" RESET);
+        printf(CINZA "\nPressione Enter para voltar \n" RESET);
         getchar();  
     } else if (confirmador == 2){
-        printf("Cadastro cancelado!\n"); 
-        printf("\nPressione Enter para voltar \n");
+        printf(VERMELHO "Cadastro cancelado!\n" RESET); 
+        printf(CINZA "\nPressione Enter para voltar \n" RESET);
         getchar();
     }  
 }
@@ -101,7 +101,7 @@ void checarAssinantes() {
     int idCom;
     Assinante* assinante;
 
-    printf("Insira o id do assinante: \n");
+    printf(BRANCO "Insira o id do assinante: \n" RESET);
     scanf("%d", &idCom);
     getchar(); 
 
@@ -109,10 +109,10 @@ void checarAssinantes() {
 
     if (assinante != NULL) {
         exibirAssinante(assinante);
-        printf("\nPressione Enter para voltar ao módulo de assinantes\n");
+        printf(CINZA "\nPressione Enter para voltar ao módulo de assinantes\n" RESET);
         getchar();
     } else {
-        printf("Assinante não encontrado.\n");
+        printf(VERMELHO "Assinante não encontrado.\n" RESET);
     }
 }
 
@@ -121,24 +121,25 @@ void checarAssinantes() {
 void exibirAssinante(const Assinante* assinante) {
     system("clear||cls");
 
-    printf(VERMELHO); 
+    printf(BRANCO); 
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
-    printf("║                        DADOS DO ASSINANTE                        ║\n");
+    printf("║                   " AMARELO "D A D O S   D O   A S S I N A N T E" BRANCO "            ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf(RESET); 
 
-    printf(CIANO "║ Id: %-60d ║\n" RESET, assinante->id);                      
-    printf(CIANO "║ Nome: %-58s ║\n" RESET, assinante->nome);
-    printf(CIANO "║ Email: %-57s ║\n" RESET, assinante->email);
-    printf(CIANO "║ CPF: %-59s ║\n" RESET, assinante->cpf);
-    printf(CIANO "║ Data de Nascimento: %-44s ║\n" RESET, assinante->dataNascimento);
-    printf(CIANO "║ Endereço: %-54s ║\n" RESET, assinante->endereco);
+    printf(CINZA "║ Id: %-60d ║\n" RESET, assinante->id);                      
+    printf(BRANCO "║ Nome: %-58s ║\n" RESET, assinante->nome);
+    printf(BRANCO "║ Email: %-57s ║\n" RESET, assinante->email);
+    printf(BRANCO "║ CPF: %-59s ║\n" RESET, assinante->cpf);
+    printf(BRANCO "║ Data de Nascimento: %-44s ║\n" RESET, assinante->dataNascimento);
+    printf(BRANCO "║ Endereço: %-54s ║\n" RESET, assinante->endereco );
+    printf(RESET); 
 
-    printf(VERMELHO); 
+    printf(BRANCO); 
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET);
 
-    printf("\n>>> Tecle <ENTER> para continuar...\n");
+    printf(CINZA "\n>>> Tecle <ENTER> para continuar...\n" RESET);
     getchar();
 }
 
@@ -148,7 +149,7 @@ void alterarAssinante() {
     char idCom[10];
     Assinante* assinante;
 
-    printf("Insira o id do assinante que você deseja alterar: \n");
+    printf(BRANCO "Insira o id do assinante que você deseja alterar: \n" RESET);
     fgets(idCom, 10, stdin);
     tratarString(idCom);
 
@@ -162,9 +163,9 @@ void alterarAssinante() {
         if (assinante != NULL) {
             exibirAssinante(assinante);
 
-            printf("\nDeseja realmente alterar esse assinante?\n");
-            printf("1. Sim\n");
-            printf("2. Não\n");
+            printf(BRANCO "\nDeseja realmente alterar esse assinante?\n" RESET);
+            printf(AMARELO "1. Sim\n" RESET);
+            printf(VERMELHO "2. Não\n" RESET);
             fgets(opcao, 10, stdin);
 
             
@@ -178,16 +179,17 @@ void alterarAssinante() {
                     controle = 0;
                     break;
                 case '2':
+                    printf(CINZA "Alteração cancelada.\n" RESET);
                     controle = 0;
                     break;
                 default:
-                    printf("Você inseriu uma opção inválida\n");
-                    printf("\nPressione Enter para tentar novamente\n");
+                    printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+                    printf(CINZA "\nPressione Enter para tentar novamente\n" RESET);
                     getchar();
                     break;
             }
         } else {
-            printf("Assinante não encontrado.\n");
+            printf(VERMELHO "Assinante não encontrado.\n" RESET);
             controle = 0;
         }
     } while (controle == 1);
@@ -199,7 +201,7 @@ void excluirAssinante(){
     int controle = 1;
     char idCom[10];
     Assinante* assinante;
-    printf("Insira o id do assinante que você excluir: \n");
+    printf(BRANCO "Insira o id do assinante que você excluir: \n" RESET);
     fgets(idCom, 10, stdin);
     tratarString(idCom);
     if (!(validarId(idCom,3))){
@@ -209,7 +211,9 @@ void excluirAssinante(){
     do {
         if (assinante != NULL){
             exibirAssinante(assinante);
-            printf("\nDeseja realmente apagar esse assinante?\n1. Sim\n2. Não\n");
+            printf(BRANCO "\nDeseja realmente apagar esse assinante?\n" RESET);
+            printf(VERMELHO "1. Sim\n" RESET);
+            printf(AMARELO "2. Não\n" RESET);
             fgets(opcao,10,stdin);
             if (opcao[1] != '\n'){
                 opcao[0] = 'l';
@@ -220,11 +224,12 @@ void excluirAssinante(){
                     controle = 0;
                 break;
                 case '2':
+                    printf(CINZA "Exclusão cancelada.\n" RESET);
                     controle = 0;
                 break;
                 default:
-                    printf("Você inseriu uma opção inválida\n");
-                    printf("\nPressione Enter para tentar novamente \n");
+                    printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+                    printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
                     getchar();
                 break;
             }
@@ -239,34 +244,35 @@ int confirmarInfoAss(const Assinante* assinante){
     char opcao[10];
     int controleCI = 1;
     do {
-        printf("╔═════════════════════════════╗\n");
-        printf("║          Confirmação        ║\n");
-        printf("╠═════════════════════════════╝\n");
-        printf("║ Nome: %s \n", assinante->nome);
-        printf("║ Email: %s \n", assinante->email);
-        printf("║ CPF: %s \n", assinante->cpf);
-        printf("║ Data: %s \n", assinante->dataNascimento);
-        printf("║ Endereço: %s \n", assinante->endereco);
-        printf("╠═════════════════════════════╗\n");
-        printf("║ Deseja manter essas infos?  ║\n");
-        printf("║ 1. Sim                      ║\n");
-        printf("║ 2. Não                      ║\n");
-        printf("╚═════════════════════════════╝\n");
+        printf(CIANO "╔═════════════════════════════╗\n" RESET);
+        printf(CIANO "║          " AMARELO "Confirmação" CIANO "        ║\n" RESET);
+        printf(CIANO "╠═════════════════════════════╝\n" RESET);
+        printf(BRANCO "║ Nome: %s \n" RESET, assinante->nome);
+        printf(BRANCO "║ Email: %s \n" RESET, assinante->email);
+        printf(BRANCO "║ CPF: %s \n" RESET, assinante->cpf);
+        printf(BRANCO "║ Data: %s \n" RESET, assinante->dataNascimento);
+        printf(BRANCO "║ Endereço: %s \n" RESET, assinante->endereco);
+        printf(CIANO "╠═════════════════════════════╗\n" RESET);
+        printf(BRANCO "║ Deseja manter essas infos?  ║\n" RESET);
+        printf(AMARELO "║ 1. Sim                      ║\n" RESET);
+        printf(VERMELHO "║ 2. Não                      ║\n" RESET);
+        printf(CIANO "╚═════════════════════════════╝\n" RESET);
         fgets(opcao,10, stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
         };
         switch (opcao[0]) {
             case '1':
-                controleCI = 1;
+                controleCI = 0;
                 return 1;
                 break;
             case '2':
-                controleCI = 1;
+                controleCI = 0;
                 return 2;
                 break;
             default:
-                printf("\nPressione Enter para tentar novamente \n");
+                printf(VERMELHO "Opção inválida.\n" RESET);
+                printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
                 getchar();
                 break;        
         }
@@ -278,7 +284,7 @@ int confirmarInfoAss(const Assinante* assinante){
 Assinante* salvarAssinantes() {
     Assinante* a = criarAssinante();
     if (!a) {
-        fprintf(stderr, "Erro ao alocar memória!\n");
+        fprintf(stderr, VERMELHO "Erro ao alocar memória!\n" RESET);
         return NULL;
     }
 
@@ -296,11 +302,11 @@ Assinante* criarAssinante() {
 }
 
 void preencherAssinante(Assinante* a) {
-    lerCampo("Insira o nome do Assinante:", a->nome, 100, validarNome, "❌ Nome inválido! Digite novamente.");
-    lerCampo("Insira o email:", a->email, 100, validarEmail, "❌ Email inválido! Digite novamente.");
-    lerCampo("Insira o CPF:", a->cpf, 20, validar_cpf, "❌ CPF inválido! Digite novamente.");
-    lerCampo("Insira a data de nascimento (dd/mm/aaaa):", a->dataNascimento, 20, validarDataNascimento, "❌ Data inválida! Digite novamente.");
-    lerCampo("Insira o endereço (Cidade, Bairro, Rua, Número):", a->endereco, 100, validarEndereco, "❌ Endereço inválido! Digite novamente.");
+    lerCampo(BRANCO "Insira o nome do Assinante:" RESET, a->nome, 100, validarNome, VERMELHO "❌ Nome inválido! Digite novamente." RESET);
+    lerCampo(BRANCO "Insira o email:" RESET, a->email, 100, validarEmail, VERMELHO "❌ Email inválido! Digite novamente." RESET);
+    lerCampo(BRANCO "Insira o CPF:" RESET, a->cpf, 20, validar_cpf, VERMELHO "❌ CPF inválido! Digite novamente." RESET);
+    lerCampo(BRANCO "Insira a data de nascimento (dd/mm/aaaa):" RESET, a->dataNascimento, 20, validarDataNascimento, VERMELHO "❌ Data inválida! Digite novamente." RESET);
+    lerCampo(BRANCO "Insira o endereço (Cidade, Bairro, Rua, Número):" RESET, a->endereco, 100, validarEndereco, VERMELHO "❌ Endereço inválido! Digite novamente." RESET);
 }
 
 
@@ -309,7 +315,7 @@ Assinante* recuperarAssinante(int idCom){
     Assinante* assinante;
     arqAssinantes = fopen("./dados/dadosAssinantes.dat", "rb");
     if (arqAssinantes == NULL){
-        printf("Erro em Abrir o arquivo");
+        printf(VERMELHO "Erro em Abrir o arquivo" RESET);
         getchar();
         return NULL;
     }
@@ -321,7 +327,7 @@ Assinante* recuperarAssinante(int idCom){
         }
     }
     fclose(arqAssinantes);
-    printf("O assinante com o ID %d não foi encontrado\n", idCom);
+    printf(VERMELHO "O assinante com o ID %d não foi encontrado\n" RESET, idCom);
     getchar();
     free(assinante);
     return NULL;
@@ -332,7 +338,7 @@ void excluirAssinanteArquivo(int idCom){
     Assinante* assinante;
     arqAssinantes = fopen("./dados/dadosAssinantes.dat", "r+b");
     if (arqAssinantes == NULL){
-        printf("Falha na manipulação dos arquivos");
+        printf(VERMELHO "Falha na manipulação dos arquivos" RESET);
         getchar();
         return;
     }
@@ -342,8 +348,8 @@ void excluirAssinanteArquivo(int idCom){
             assinante->status = False;
             fseek(arqAssinantes,-1*sizeof(Assinante), SEEK_CUR);
             fwrite(assinante,sizeof(Assinante),1,arqAssinantes);
-            printf("Assinante Excluído com sucesso\n");
-            printf("Aperte enter para voltar ao menu\n");
+            printf(VERMELHO "Assinante Excluído com sucesso\n" RESET);
+            printf(CINZA "Aperte enter para voltar ao menu\n" RESET);
             getchar();
             fclose(arqAssinantes);
             free(assinante);
@@ -357,8 +363,9 @@ void alterarAssinanteArquivo(int idCom){
     int controle = 1;
     system("clear||cls");
     do {
-        printf("║Qual campo você quer alterar?\n");
-        printf("║1. Nome\n║2. Email\n║3. CPF\n║4. Data de nascimento\n║5. Endereço\n");
+        printf(CIANO "║Qual campo você quer alterar?\n" RESET);
+        printf(BRANCO "║1. Nome\n║2. Email\n║3. CPF\n║4. Data de nascimento\n║5. Endereço\n" RESET);
+        printf(AMARELO "║6. Voltar\n" RESET);
         fgets(opcao,10,stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -367,11 +374,11 @@ void alterarAssinanteArquivo(int idCom){
         case '1':
             char nomeNovo[100];
             do {
-                printf("Insira o nome do Assinante:\n");
+                printf(BRANCO "Insira o nome do Assinante:\n" RESET);
                 fgets(nomeNovo, 100, stdin);
                 tratarString(nomeNovo); 
                 if (!validarNome(nomeNovo)) {
-                    printf("❌ Nome inválido! Digite novamente.\n");
+                    printf(VERMELHO "❌ Nome inválido! Digite novamente.\n" RESET);
                 }
             } while (!validarNome(nomeNovo));
             atualizarCampoAssinante(idCom, nomeNovo, 1);
@@ -380,11 +387,11 @@ void alterarAssinanteArquivo(int idCom){
         case '2':
             char emailNovo[100];
             do {
-                printf("Insira o email:\n");
+                printf(BRANCO "Insira o email:\n" RESET);
                 fgets(emailNovo, 100, stdin);
                 tratarString(emailNovo);
                 if (!validarEmail(emailNovo)) {
-                    printf("❌ Email inválido! Digite novamente.\n");
+                    printf(VERMELHO "❌ Email inválido! Digite novamente.\n" RESET);
                 }
             } while (!validarEmail(emailNovo));
             atualizarCampoAssinante(idCom, emailNovo,2);
@@ -393,11 +400,11 @@ void alterarAssinanteArquivo(int idCom){
         case '3':
             char cpfNovo[20];
             do {
-                printf("Insira o CPF:\n");
+                printf(BRANCO "Insira o CPF:\n" RESET);
                 fgets(cpfNovo, 20, stdin);
                 tratarString(cpfNovo);
                 if (!validar_cpf(cpfNovo)) {
-                    printf("❌ CPF inválido! Digite novamente.\n");
+                    printf(VERMELHO "❌ CPF inválido! Digite novamente.\n" RESET);
                 }
             } while (!validar_cpf(cpfNovo));
             atualizarCampoAssinante(idCom, cpfNovo, 3);
@@ -406,11 +413,11 @@ void alterarAssinanteArquivo(int idCom){
         case '4':
             char dataNascimentoNovo[20];
             do {
-                printf("Insira a data de nascimento (dd/mm/aaaa):\n");
+                printf(BRANCO "Insira a data de nascimento (dd/mm/aaaa):\n" RESET);
                 fgets(dataNascimentoNovo, 20, stdin);
                 tratarString(dataNascimentoNovo);
                 if (!validarDataNascimento(dataNascimentoNovo)) {
-                    printf("❌ Data inválida! Digite novamente no formato dd/mm/aaaa.\n");
+                    printf(VERMELHO "❌ Data inválida! Digite novamente no formato dd/mm/aaaa.\n" RESET);
                 }
             } while (!validarDataNascimento(dataNascimentoNovo));
             atualizarCampoAssinante(idCom, dataNascimentoNovo, 4);
@@ -419,11 +426,11 @@ void alterarAssinanteArquivo(int idCom){
         case '5':
             char enderecoNovo[100];
             do {
-                printf("Insira o endereço (Cidade, Bairro, Rua, Número):\n");
+                printf(BRANCO "Insira o endereço (Cidade, Bairro, Rua, Número):\n" RESET);
                 fgets(enderecoNovo, 100, stdin);
                 tratarString(enderecoNovo);
                 if (!validarEndereco(enderecoNovo)) {
-                    printf("❌ Endereço inválido! Digite novamente.\n");
+                    printf(VERMELHO "❌ Endereço inválido! Digite novamente.\n" RESET);
                 }
             } while (!validarEndereco(enderecoNovo));
             atualizarCampoAssinante(idCom, enderecoNovo, 5);
@@ -433,8 +440,8 @@ void alterarAssinanteArquivo(int idCom){
             controle = 0;
         break; 
        default:
-            printf("Você inseriu uma opção inválida\n");
-            printf("\nPressione Enter para tentar novamente \n");
+            printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
+            printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
             getchar();
         break;
        }
@@ -445,7 +452,7 @@ void alterarAssinanteArquivo(int idCom){
 void atualizarCampoAssinante(int idCom, const char* novoValor, int campo) {
     FILE *arqAssinantes = fopen("./dados/dadosAssinantes.dat", "r+b");
     if (arqAssinantes == NULL) {
-        printf("Falha na manipulação dos arquivos");
+        printf(VERMELHO "Falha na manipulação dos arquivos" RESET);
         getchar();
         return;
     }
@@ -476,8 +483,8 @@ void atualizarCampoAssinante(int idCom, const char* novoValor, int campo) {
             fseek(arqAssinantes, -1 * sizeof(Assinante), SEEK_CUR);
             fwrite(assinante, sizeof(Assinante), 1, arqAssinantes);
             
-            printf("Assinante alterado com sucesso\n");
-            printf("Aperte enter para voltar ao menu\n");
+            printf(CIANO "Assinante alterado com sucesso\n" RESET);
+            printf(CINZA "Aperte enter para voltar ao menu\n" RESET);
             getchar();
             
             free(assinante);
@@ -486,7 +493,7 @@ void atualizarCampoAssinante(int idCom, const char* novoValor, int campo) {
         }
     }
 
-    printf("Assinante não encontrado!\n");
+    printf(VERMELHO "Assinante não encontrado!\n" RESET);
     free(assinante);
     fclose(arqAssinantes);
 }
@@ -497,31 +504,31 @@ void listarAssinantes(void) {
 
     system("clear||cls");
 
-    printf(CIANO);
+    printf(BRANCO);
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
-    printf("║                      LISTAGEM DE ASSINANTES                      ║\n");
+    printf("║                " AMARELO "L I S T A G E M   D E   A S S I N A N T E S" BRANCO "       ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf(RESET);
 
     arqAssinantes = fopen("./dados/dadosAssinantes.dat", "rb");
     if (arqAssinantes == NULL) {
         printf(VERMELHO "❌ Erro ao abrir o arquivo de assinantes!\n" RESET);
-        printf("Pressione Enter para voltar.\n");
+        printf(CINZA "Pressione Enter para voltar.\n" RESET);
         getchar();
         return;
     }
 
     assinante = (Assinante*) malloc(sizeof(Assinante));
     int encontrou = 0;
-
-    printf("┌────────┬────────────────────────────┬────────────────────────────┐\n");
-    printf("│   ID   │ Nome                       │ CPF                        │\n");
-    printf("├────────┼────────────────────────────┼────────────────────────────┤\n");
+    
+    printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────────┐\n" RESET);
+    printf(AMARELO "│ ID     │ Nome                       │ CPF                        │\n" RESET);
+    printf(BRANCO "├────────┼────────────────────────────┼────────────────────────────┤\n" RESET);
 
     while (fread(assinante, sizeof(Assinante), 1, arqAssinantes)) {
         if (assinante->status == True) {
             encontrou = 1;
-            printf("│ %-6d │ %-26.26s │ %-26.26s │\n",
+            printf(BRANCO "│ " CIANO "%-6d" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │\n" RESET,
                    assinante->id,
                    assinante->nome,
                    assinante->cpf);
@@ -529,15 +536,15 @@ void listarAssinantes(void) {
     }
 
     if (encontrou) {
-        printf("└────────┴────────────────────────────┴────────────────────────────┘\n");
+        printf(CINZA "└────────┴────────────────────────────┴────────────────────────────┘\n" RESET);
     } else {
-        printf("│ %-66s │\n", "Nenhum assinante encontrado.");
-        printf("└──────────────────────────────────────────────────────────────────┘\n");
+        printf(BRANCO "│ " VERMELHO "%-66s" BRANCO " │\n" RESET, "Nenhum assinante encontrado.");
+        printf(CINZA "└──────────────────────────────────────────────────────────────────┘\n" RESET);
     }
 
     fclose(arqAssinantes);
     free(assinante);
 
-    printf("\nPressione Enter para voltar ao menu.\n");
+    printf(CINZA "\nPressione Enter para voltar ao menu.\n" RESET);
     getchar();
 }
