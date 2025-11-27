@@ -45,6 +45,9 @@ void menuRelatorios(){
             relatorioPlanosPorPeriodo();
         break;
         case '8':
+            relatorioProdutosPorAno();
+            break;
+        case '9':
             crtlRelatorio = 0;
         break; 
        default:
@@ -59,18 +62,19 @@ void menuRelatorios(){
 
 void telaRelatorios(){
     system("clear||cls");
-    printf("╔══════════════════════════════╗\n");
-    printf("║           RELATÓRIOS         ║\n");
-    printf("╠══════════════════════════════╣\n");
-    printf("║ 1. Assinantes(Faixa Etária)  ║\n");
-    printf("║ 2. Assinaturas(Período)      ║\n");
-    printf("║ 3. Planos (Faixa de Preço)   ║\n");
-    printf("║ 4. Produtos por Marca        ║\n");
-    printf("║ 5. Planos por Produtos       ║\n");
-    printf("║ 6. Assinaturas por CPF       ║\n");
-    printf("║ 7. Planos por Período(Direta)║\n");
-    printf("║ 8. Sair                      ║\n");
-    printf("╚══════════════════════════════╝\n");
+    printf("╔═════════════════════════════════════════╗\n");
+    printf("║               RELATÓRIOS                ║\n");
+    printf("╠═════════════════════════════════════════╣\n");
+    printf("║ 1. Assinantes(Faixa Etária)             ║\n");
+    printf("║ 2. Assinaturas(Período)                 ║\n");
+    printf("║ 3. Planos (Faixa de Preço)              ║\n");
+    printf("║ 4. Produtos por Marca                   ║\n");
+    printf("║ 5. Planos por Produtos                  ║\n");
+    printf("║ 6. Assinaturas por CPF                  ║\n");
+    printf("║ 7. Planos por Período(Direta)           ║\n");
+    printf("║ 8. Produtos por Ano de produção(Inversa)║\n");
+    printf("║ 9. Sair                                 ║\n");
+    printf("╚═════════════════════════════════════════╝\n");
     printf("Digite sua escolha: \n");
 }
 
@@ -628,5 +632,103 @@ void relatorioPlanosPorPeriodo(void){
 
 
 
+void relatorioProdutosPorAno(void) {
+    FILE *fp = fopen("./dados/dadosProdutos.dat", "rb");
+    if (!fp) {
+        printf("❌ Erro: não foi possível abrir './dados/dadosProdutos.dat'\n");
+        printf("\nPressione ENTER para voltar...\n");
+        getchar();
+        return;
+    }
 
+    Produto tmp;
+    Produto *lista = NULL;
 
+    
+    while (fread(&tmp, sizeof(Produto), 1, fp) == 1) {
+        if (tmp.status != True) continue;
+        Produto *novo = (Produto*) malloc(sizeof(Produto));
+        if (!novo) {
+            fclose(fp);
+            printf("❌ Erro de memória!\n");
+            printf("\nPressione ENTER para voltar...\n");
+            getchar();
+            return;
+        }
+        *novo = tmp;
+        novo->prox = lista;
+        lista = novo;
+    }
+    fclose(fp);
+
+    if (lista == NULL) {
+        system("clear||cls");
+        printf("╔══════════════════════════════════════════════════════════════╗\n");
+        printf("║                 RELATÓRIO: PRODUTOS POR FAIXA DE ANO         ║\n");
+        printf("╠══════════════════════════════════════════════════════════════╣\n");
+        printf("║ Nenhum produto cadastrado.                                   ║\n");
+        printf("╚══════════════════════════════════════════════════════════════╝\n");
+        printf("\nPressione ENTER para voltar...\n");
+        getchar();
+        return;
+    }
+
+    struct { int ini, fim; const char *titulo; } faixas[5] = {
+        {1900, 1950, "1900 - 1950"},
+        {1951, 1980, "1951 - 1980"},
+        {1981, 2000, "1981 - 2000"},
+        {2001, 2010, "2001 - 2010"},
+        {2011, 2025, "2011 - 2025"}
+    };
+
+    system("clear||cls");
+    printf("╔══════════════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                       RELATÓRIO: PRODUTOS POR FAIXAS DE ANO (ORDEM INVERSA)              ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════════════════════╣\n");
+
+    
+    for (int f = 0; f < 5; f++) {
+        printf("║ Faixa: %-81s ║\n", faixas[f].titulo);
+        printf("╠══════════════════════════════════════════════════════════════════════════════════════════╣\n");
+        printf("║ %-5s │ %-25s │ %-15s │ %-15s │ %-16s ║\n", "ID", "Nome", "Tipo", "Marca", "Ano");
+        printf("╠══════════════════════════════════════════════════════════════════════════════════════════╣\n");
+
+        int encontrou = 0;
+        Produto *aux = lista;
+        while (aux != NULL) {
+            
+            char *s = aux->anoProducao;
+            while (*s == ' ' || *s == '\t') s++; // trim left simples peguei do chat gpt 5 essa parte
+            if (*s == '\0') { aux = aux->prox; continue; }
+            int ano = atoi(aux->anoProducao);
+            if (ano >= faixas[f].ini && ano <= faixas[f].fim) {
+                encontrou = 1;
+                printf("║ %-5d │ %-25s │ %-15s │ %-15s │ %-8s ║\n",
+                    aux->id,
+                    aux->nome,
+                    aux->tipo,
+                    aux->marca,
+                    aux->anoProducao);
+            }
+            aux = aux->prox;
+        }
+
+        if (!encontrou) {
+            printf("║ %-88s ║\n", "Nenhum produto encontrado nessa faixa.");
+        }
+
+        printf("╠══════════════════════════════════════════════════════════════════════════════════════════╣\n");
+    }
+
+    printf("╚══════════════════════════════════════════════════════════════════════════════════════════╝\n");
+
+    
+    while (lista != NULL) {
+        Produto *tmpNode = lista;
+        lista = lista->prox;
+        free(tmpNode);
+    }
+
+    printf("\nPressione ENTER para voltar...\n");
+    getchar();
+}
