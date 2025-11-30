@@ -743,19 +743,20 @@ void relatorioProdutosPorAno(void) {
     
     while (fread(&tmp, sizeof(Produto), 1, fp) == 1) {
         if (tmp.status != True) continue;
-        Produto *novo = (Produto*) malloc(sizeof(Produto));
-        if (!novo) {
+        Produto *novoProduto = (Produto*) malloc(sizeof(Produto));
+        if (!novoProduto) {
             fclose(fp);
             printf(VERMELHO "❌ Erro de memória!\n" RESET);
             printf(CINZA "\nPressione ENTER para voltar...\n" RESET);
             getchar();
             return;
         }
-        *novo = tmp;
-        novo->prox = lista;
-        lista = novo;
+        *novoProduto = tmp;
+        novoProduto->prox = lista;
+        lista = novoProduto;
     }
     fclose(fp);
+    Produto *aux = lista;
 
     if (lista == NULL) {
         system("clear||cls");
@@ -775,7 +776,7 @@ void relatorioProdutosPorAno(void) {
         {1981, 2000, "1981 - 2000"},
         {2001, 2010, "2001 - 2010"},
         {2011, 2025, "2011 - 2025"}
-    };
+    }; // esse struct peguei do chat gpt 5
 
     system("clear||cls");
     printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════════════════╗\n" RESET);
