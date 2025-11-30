@@ -14,5 +14,7 @@
     void relatorioProdutosPorAno();
     void assinantesOrdemAlfabetica(Assinante **);
     void telaAssinantesOrdemAlfabetica(Assinante* );
+    void assinantesOrdemCPF(Assinante **);
+    void telaAssinantesOrdemCPF(Assinante*);
     void apagarLista(Assinante**);
 #endif

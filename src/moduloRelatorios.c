@@ -22,55 +22,58 @@
 
 void menuRelatorios(){
     char opcao[10];
-    Assinante *lista;
-    lista = NULL;
+    Assinante *lista = NULL;
     int crtlRelatorio = 1;
+
     do {
         telaRelatorios();
-        fgets(opcao,10,stdin);
-        if (opcao[1] != '\n'){
-            opcao[0] = 'l';
-        };
-        switch (opcao[0]){
-        case '1':
+        fgets(opcao, 10, stdin);
+
+        
+        opcao[strcspn(opcao, "\n")] = '\0';
+
+        if (strcmp(opcao, "1") == 0) {
             relatorioAssinantesFaixaEtaria();
-        break;
-        case '2':
+        }
+        else if (strcmp(opcao, "2") == 0) {
             relatorioAssinaturasPeriodo();
-        break;
-        case '3':
+        }
+        else if (strcmp(opcao, "3") == 0) {
             relatorioPlanosFaixaPreco();
-        break;
-        case '4':
+        }
+        else if (strcmp(opcao, "4") == 0) {
             relatorioProdutosPorMarca();
-        break;
-        case '5':
+        }
+        else if (strcmp(opcao, "5") == 0) {
             relatorioPlanosPorProduto();
-        break;
-        case '6':
+        }
+        else if (strcmp(opcao, "6") == 0) {
             relatorioAssinaturasPorCPF();
-        break;
-        case '7':
+        }
+        else if (strcmp(opcao, "7") == 0) {
             relatorioPlanosPorPeriodo();
-        break;
-        case '8':
+        }
+        else if (strcmp(opcao, "8") == 0) {
             relatorioProdutosPorAno();
-            break;
-        case '9':
+        }
+        else if (strcmp(opcao, "9") == 0) {
             assinantesOrdemAlfabetica(&lista);
             telaAssinantesOrdemAlfabetica(lista);
-            break;
-        case '0':
+        }
+        else if (strcmp(opcao, "10") == 0) {
+            assinantesOrdemCPF(&lista);
+            telaAssinantesOrdemCPF(lista);
+        }
+        else if (strcmp(opcao, "0") == 0) {
             crtlRelatorio = 0;
-        break; 
-       default:
+        }
+        else {
             printf(VERMELHO "Você inseriu uma opção inválida\n" RESET);
-            printf(CINZA "\nPressione Enter para tentar novamente \n" RESET);
+            printf(CINZA "\nPressione Enter para continuar\n" RESET);
             getchar();
-        break;
-       }
-    }    
-    while (crtlRelatorio == 1);
+        }
+
+    } while (crtlRelatorio == 1);
 }
 
 void telaRelatorios(){
@@ -88,6 +91,7 @@ void telaRelatorios(){
     printf("║ " CIANO "7." BRANCO " Planos por Período(Direta)           ║\n");
     printf("║ " CIANO "8." BRANCO " Produtos por Ano de produção(Inversa)║\n");
     printf("║ " CIANO "9." BRANCO " Assinantes(Ordem Alfabética)         ║\n");
+    printf("║ " CIANO "9." BRANCO " Assinantes(Ordem Crescente de CPF)   ║\n");
     printf("║ " AMARELO "0." BRANCO " Sair                                 ║\n");
     printf("╚═════════════════════════════════════════╝\n");
     printf(BRANCO "Digite sua escolha: \n" RESET);
@@ -919,6 +923,88 @@ void telaAssinantesOrdemAlfabetica(Assinante *aux) {
             count++;
             printf(BRANCO "│ " CIANO "%-2d" BRANCO " │ %-26.26s │ %-30.30s │\n" RESET,
                    count, aux->nome, aux->cpf);
+        }
+        aux = aux->prox;
+    }
+
+    if (!encontrou) {
+        printf(BRANCO "│ " VERMELHO "%-63s" BRANCO " │\n" RESET, "Nenhum assinante encontrado.");
+    }
+
+    printf(CINZA "└────┴────────────────────────────┴────────────────────────────────┘\n" RESET);
+
+    printf(CINZA "\nPressione ENTER para continuar..." RESET);
+    getchar();
+}
+
+void assinantesOrdemCPF(Assinante **lista) {
+    FILE *fp;
+    Assinante *assinante;
+
+    apagarLista(lista);
+    *lista = NULL;
+
+    fp = fopen("./dados/dadosAssinantes.dat", "rb");
+    if (fp == NULL) {
+        printf(VERMELHO "Erro ao abrir o arquivo de assinantes!\n" RESET);
+        exit(1);
+    }
+
+    assinante = (Assinante*) malloc(sizeof(Assinante));
+
+    while (fread(assinante, sizeof(Assinante), 1, fp)) {
+
+        
+        if ((*lista == NULL) || (strcmp(assinante->cpf, (*lista)->cpf) < 0)) {
+            assinante->prox = *lista;
+            *lista = assinante;
+        } else {
+            Assinante *ant = *lista;
+            Assinante *atu = (*lista)->prox;
+
+            while (atu != NULL && strcmp(atu->cpf, assinante->cpf) < 0) {
+                ant = atu;
+                atu = atu->prox;
+            }
+
+            ant->prox = assinante;
+            assinante->prox = atu;
+        }
+
+        
+        assinante = (Assinante*) malloc(sizeof(Assinante));
+    }
+
+    free(assinante);
+    fclose(fp);
+}
+void telaAssinantesOrdemCPF(Assinante *aux) {
+    int count = 0;
+    int encontrou = 0;
+
+    system("clear||cls");
+
+    printf(BRANCO "╔══════════════════════════════════════════════════════════════════╗\n" RESET);
+    printf(BRANCO "║                  " AMARELO "ASSINANTES – ORDEM POR CPF" BRANCO "                    ║\n" RESET);
+    printf(BRANCO "╠══════════════════════════════════════════════════════════════════╣\n" RESET);
+
+    printf(BRANCO "┌────┬────────────────────────────┬────────────────────────────────┐\n" RESET);
+    printf(
+        BRANCO "│ "
+        AMARELO "Nº" RESET BRANCO " │ "
+        AMARELO "%-26s" RESET BRANCO " │ "
+        AMARELO "%-30s" RESET BRANCO " │\n",
+        "CPF",
+        "Nome"
+    );
+    printf(BRANCO "├────┼────────────────────────────┼────────────────────────────────┤\n" RESET);
+
+    while (aux != NULL) {
+        if (aux->status == True) {
+            encontrou = 1;
+            count++;
+            printf(BRANCO "│ " CIANO "%-2d" BRANCO " │ %-26.26s │ %-30.30s │\n" RESET,
+                   count, aux->cpf, aux->nome);
         }
         aux = aux->prox;
     }
