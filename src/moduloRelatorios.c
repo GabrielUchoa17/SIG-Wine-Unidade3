@@ -264,12 +264,9 @@ void relatorioAssinaturasPeriodo(){
     printf(BRANCO "╔════════════════════════════════════════════════════════════════╗\n" RESET);
     printf(BRANCO "║              " AMARELO "LISTAGEM DE ASSINATURAS - PERÍODO: %c" BRANCO "              ║\n" RESET, toupper(opcao[0]));
     printf(BRANCO "╠════════════════════════════════════════════════════════════════╣\n" RESET);
-
     printf(BRANCO "┌──────┬──────────────┬───────────────────────────┬──────────────┐\n" RESET);
     printf(AMARELO "│  ID  │ ID Assinante │ Data Assinatura           │ Período      │\n" RESET);
     printf(BRANCO "├──────┼──────────────┼───────────────────────────┼──────────────┤\n" RESET);
-   
-
     while (fread(assinatura, sizeof(Assinatura), 1, arqAssinaturas)) {
         if (assinatura->status == True && 
             toupper(assinatura->periodoVencimento[0]) == toupper(opcao[0])) {
@@ -462,17 +459,14 @@ void relatorioProdutosPorMarca() {
             }
         }
     }
-
     if (encontrou) {
         printf(CINZA "└──────┴────────────────────────────┴─────────────────────────┘\n" RESET);
     } else {
         printf(BRANCO "│      " VERMELHO "Nenhum produto encontrado para essa marca." BRANCO "             │\n" RESET);
         printf(CINZA "└─────────────────────────────────────────────────────────────┘\n" RESET);
     }
-
     fclose(arqProdutos);
     free(produto);
-
     printf(CINZA "\nPressione Enter para voltar ao menu...\n" RESET);
     getchar();
 }
@@ -485,19 +479,12 @@ void relatorioPlanosPorProduto(void) {
         getchar();
         return;
     }
-
     Plano plano;
-
     system("clear||cls");
-
     printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════════╗\n" RESET);
-
     printf(BRANCO "║                     "AMARELO"RELATÓRIO: PLANOS AGRUPADOS POR PRODUTO"
         RESET BRANCO "                      ║\n");
-
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
-
-    
     printf(BRANCO "║ "
        AMARELO "%-22s" RESET BRANCO " │ "
        AMARELO "%-8s" RESET BRANCO " │ "
@@ -509,15 +496,12 @@ void relatorioPlanosPorProduto(void) {
        "Nome do Plano",
        "Preço",
        "Período");
-
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
     while (fread(&plano, sizeof(Plano), 1, fp)) {
         if (plano.status == True) {
-
             Produto* prod = buscarProdutoPorID(plano.idProduto);
             char nomeProduto[100];
             char corProduto[20] = ""; 
-
             if (prod != NULL) {
                 strcpy(nomeProduto, prod->nome);
                 free(prod);
@@ -532,33 +516,26 @@ void relatorioPlanosPorProduto(void) {
                 plano.nome,
                 plano.preco,
                 plano.periodo);
-
-        }
+            }
     }
 
     printf(CINZA "╚══════════════════════════════════════════════════════════════════════════════════╝\n" RESET);
-
     fclose(fp);
-
     printf(CINZA "\nPressione ENTER para continuar..." RESET);
     getchar();
 }
 
 void relatorioAssinaturasPorCPF(void) {
     system("clear||cls");
-
     char cpfBusca[20];
     int idAssinanteEncontrado;
-
     printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════╗\n" RESET);
     printf(BRANCO "║                        " AMARELO "RELATÓRIO: ASSINATURAS POR CPF" BRANCO "                        ║\n" RESET);
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════╣\n" RESET);
     printf(BRANCO "Digite o CPF do assinante: " RESET);
     fgets(cpfBusca, 20, stdin);
     tratarString(cpfBusca); 
-
     Assinante* assinanteAlvo = buscarAssinantePorCPF(cpfBusca); 
-    
     if (assinanteAlvo == NULL) {
         printf(VERMELHO "❌ Assinante não encontrado com o CPF fornecido ou inativo.\n" RESET);
         printf(BRANCO "╚══════════════════════════════════════════════════════════════════════════════╝\n" RESET);
@@ -566,12 +543,10 @@ void relatorioAssinaturasPorCPF(void) {
         getchar();
         return;
     }
-
     idAssinanteEncontrado = assinanteAlvo->id;
     char nomeAssinante[100];
     strcpy(nomeAssinante, assinanteAlvo->nome);
     free(assinanteAlvo);
-
     FILE* fp = fopen("./dados/dadosAssinaturas.dat", "rb");
     if (fp == NULL) {
         printf(VERMELHO "❌ Erro ao abrir o arquivo de assinaturas!\n" RESET);
@@ -579,22 +554,16 @@ void relatorioAssinaturasPorCPF(void) {
         getchar();
         return;
     }
-
     Assinatura assinatura;
     int encontrouAssinatura = 0;
-
     printf(BRANCO "\n>>> Assinante: **" CIANO "%-50s" BRANCO "** (ID: " CIANO "%d" BRANCO ") \n" RESET, nomeAssinante, idAssinanteEncontrado);
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════╣\n" RESET);
     printf(AMARELO "║ %-10s | %-15s | %-15s | %-15s ║\n" RESET,
              "ID Ass", "Plano", "Data Assin.", "Período");
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════╣\n" RESET);
-
     while (fread(&assinatura, sizeof(Assinatura), 1, fp)) {
-        
         int idAssinaturaNaStruct = atoi(assinatura.idAssinante); 
-
         if (assinatura.status == True && idAssinaturaNaStruct == idAssinanteEncontrado) {
-            
             int idPlano = atoi(assinatura.idPlano);
             Plano* pl = buscarPlanoPorID(idPlano);
             char nomePlano[100];
@@ -604,9 +573,7 @@ void relatorioAssinaturasPorCPF(void) {
             } else {
                 strcpy(nomePlano, VERMELHO "ID do Plano" RESET);
             }
-
             encontrouAssinatura = 1;
-
             printf(BRANCO "║ " CIANO "%-10d" BRANCO " | %-15s | %-15s | %-14s ║\n" RESET,
                     assinatura.id,
                     nomePlano,
@@ -614,15 +581,11 @@ void relatorioAssinaturasPorCPF(void) {
                     assinatura.periodoVencimento);
         }
     }
-
     if (!encontrouAssinatura) {
         printf(BRANCO "║ " VERMELHO "Nenhuma assinatura ativa encontrada para este assinante." BRANCO "                      ║\n" RESET);
     }
-
     printf(CINZA "╚══════════════════════════════════════════════════════════════════════════════╝\n" RESET);
-
     fclose(fp);
-
     printf(CINZA "\nPressione ENTER para continuar..." RESET);
     getchar();
 }

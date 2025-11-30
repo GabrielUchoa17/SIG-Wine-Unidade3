@@ -100,13 +100,10 @@ void cadastrarAssinante(){
 void checarAssinantes() {
     int idCom;
     Assinante* assinante;
-
     printf(BRANCO "Insira o id do assinante: \n" RESET);
     scanf("%d", &idCom);
     getchar(); 
-
     assinante = recuperarAssinante(idCom);
-
     if (assinante != NULL) {
         exibirAssinante(assinante);
         printf(CINZA "\nPressione Enter para voltar ao módulo de assinantes\n" RESET);
@@ -120,13 +117,11 @@ void checarAssinantes() {
 
 void exibirAssinante(const Assinante* assinante) {
     system("clear||cls");
-
     printf(BRANCO); 
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
     printf("║                   " AMARELO "D A D O S   D O   A S S I N A N T E" BRANCO "            ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf(RESET); 
-
     printf(CINZA "║ Id: %-60d ║\n" RESET, assinante->id);                      
     printf(BRANCO "║ Nome: %-58s ║\n" RESET, assinante->nome);
     printf(BRANCO "║ Email: %-57s ║\n" RESET, assinante->email);
@@ -134,11 +129,9 @@ void exibirAssinante(const Assinante* assinante) {
     printf(BRANCO "║ Data de Nascimento: %-44s ║\n" RESET, assinante->dataNascimento);
     printf(BRANCO "║ Endereço: %-54s ║\n" RESET, assinante->endereco );
     printf(RESET); 
-
     printf(BRANCO); 
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET);
-
     printf(CINZA "\n>>> Tecle <ENTER> para continuar...\n" RESET);
     getchar();
 }
@@ -148,31 +141,24 @@ void alterarAssinante() {
     int controle = 1;
     char idCom[10];
     Assinante* assinante;
-
     printf(BRANCO "Insira o id do assinante que você deseja alterar: \n" RESET);
     fgets(idCom, 10, stdin);
     tratarString(idCom);
-
     if (!(validarId(idCom, 3))) {
         return;
     }
-
     assinante = recuperarAssinante(atoi(idCom));
-
     do {
         if (assinante != NULL) {
             exibirAssinante(assinante);
-
             printf(BRANCO "\nDeseja realmente alterar esse assinante?\n" RESET);
             printf(AMARELO "1. Sim\n" RESET);
             printf(VERMELHO "2. Não\n" RESET);
             fgets(opcao, 10, stdin);
 
-            
             if (opcao[1] != '\n') {
                 opcao[0] = 'l';
             }
-
             switch (opcao[0]) {
                 case '1':
                     alterarAssinanteArquivo(atoi(idCom));
@@ -194,7 +180,6 @@ void alterarAssinante() {
         }
     } while (controle == 1);
 }
-
 
 void excluirAssinante(){
     char opcao[10];

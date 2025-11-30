@@ -157,18 +157,14 @@ void alterarProduto(){
 
     do {
         if (produto != NULL){
-            
             exibirProduto(produto);
-
             printf(BRANCO "\nDeseja realmente alterar esse produto?\n" RESET);
             printf(AMARELO "1. Sim\n" RESET);
             printf(VERMELHO "2. Não\n" RESET);
             fgets(opcao, 10, stdin);
-            
             if (opcao[1] != '\n'){
                 opcao[0] = 'l';
             }
-
             switch (opcao[0]){
                 case '1':
                     alterarProdutoArquivo(atoi(idCom));

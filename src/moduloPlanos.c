@@ -58,14 +58,12 @@ void telaPlano(){
     printf("║                " AMARELO "M Ó D U L O   D E   P L A N O S" BRANCO "                   ║\n");
     printf("║                                                                  ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
-
     printf("║   " AMARELO "1." BRANCO " Cadastrar Plano                                " BRANCO "             ║\n");
     printf("║   " AMARELO "2." BRANCO " Checar Planos                                  " BRANCO "             ║\n");
     printf("║   " AMARELO "3." BRANCO " Alterar Plano                                   " BRANCO "            ║\n");
     printf("║   " AMARELO "4." BRANCO " Excluir Plano                                   " BRANCO "            ║\n");
     printf("║   " AMARELO "5." BRANCO " Listar Planos                                    " BRANCO "           ║\n");
     printf("║   " AMARELO "6." BRANCO " Voltar                                           " BRANCO "           ║\n");
-
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET "\n");
 
@@ -105,9 +103,7 @@ void checarPlanos() {
     printf(BRANCO "Insira o id do plano: \n" RESET);
     scanf("%d", &idCom);
     getchar();
-
     plano = recuperarPlano(idCom);
-
     if (plano != NULL) {
         exibirPlano(plano);
         printf(CINZA "\nPressione Enter para voltar ao módulo de plano\n" RESET);
@@ -125,17 +121,14 @@ void exibirPlano(const Plano* plano) {
     printf("║               " AMARELO "   D A D O S   D O   P L A N O" BRANCO "                     ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf(RESET);
-
     printf(CINZA "║ Id: %-60d ║\n" RESET, plano->id);
     printf(BRANCO "║ Nome: %-58s ║\n" RESET, plano->nome);
     printf(BRANCO "║ Preço: %-57s ║\n" RESET, plano->preco);
     printf(BRANCO "║ Período: %-55s ║\n" RESET, plano->periodo);
     printf(BRANCO "║ Id do Produto: %-49s ║\n" RESET, plano->idProduto);
-
     printf(BRANCO);
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET);
-
     printf(CINZA "\n>>> Tecle <ENTER> para continuar...\n" RESET);
     getchar();
 }
@@ -154,18 +147,14 @@ void alterarPlano() {
     if (!(validarId(idCom, 3))) {
         return;
     }
-
     plano = recuperarPlano(atoi(idCom));
-
     do {
         if (plano != NULL) {
             exibirPlano(plano);
-
             printf(BRANCO "\nDeseja realmente alterar esse plano?\n" RESET);
             printf(AMARELO "1. Sim\n" RESET);
             printf(VERMELHO "2. Não\n" RESET);
             fgets(opcao, 10, stdin);
-
             if (opcao[1] != '\n') {
                 opcao[0] = 'l'; 
             }
@@ -344,7 +333,6 @@ Plano* quantidadePlanos(void) {
                 }
                 return NULL;
             }
-            
             memcpy(novoPlano, planoLido, sizeof(Plano));
             novoPlano->prox = NULL; 
 
@@ -356,7 +344,6 @@ Plano* quantidadePlanos(void) {
             ultimo = novoPlano;
         }
     }
-    
     free(planoLido);
     fclose(arqPlanos);
     return lista;
@@ -556,10 +543,8 @@ void atualizarCampoPlano(int idCom, const char* novoValor, int campo) {
                 default:
                     break;
             }
-            
             fseek(arqPlanos, -1 * sizeof(Plano), SEEK_CUR);
             fwrite(plano, sizeof(Plano), 1, arqPlanos);
-            
             printf(CIANO "Plano alterado com sucesso\n" RESET);
             printf(CINZA "Aperte enter para voltar ao menu\n" RESET);
             getchar();
@@ -596,7 +581,6 @@ void listarPlanos(void) {
 
     plano = (Plano*) malloc(sizeof(Plano));
     int encontrou = 0;
-
     printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────────┬────────────────────────────┬────────────────────────┐\n" RESET);
     printf(AMARELO "│   ID   │ Nome                       │ Preço                      │ Período                    │ ID Produto             │\n" RESET);
     printf(BRANCO "├────────┼────────────────────────────┼────────────────────────────┼────────────────────────────┼────────────────────────┤\n" RESET);
@@ -612,17 +596,14 @@ void listarPlanos(void) {
                    plano->idProduto);
         }
     }
-
     if (encontrou) {
         printf(CINZA "└────────┴────────────────────────────┴────────────────────────────┴────────────────────────────┴────────────────────────┘\n" RESET);
     } else {
         printf(BRANCO "│ " VERMELHO "%-108s" BRANCO " │\n" RESET, "Nenhum plano encontrado.");
         printf(CINZA "└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n" RESET);
     }
-
     fclose(arqPlano);
     free(plano);
-
     printf(CINZA "\nPressione Enter para voltar ao menu.\n" RESET);
     getchar();
 }

@@ -104,7 +104,6 @@ void telaSobre() {
 
 void telaInicial() {
     system("clear||cls");
-
     printf(CINZA); 
     printf("╔════════════════════════════════════════════════════════╗\n");
     printf("║                                                        ║\n");
@@ -119,15 +118,11 @@ void telaInicial() {
    
     printf("║                 " AMARELO "MENU PRINCIPAL" CINZA "                         ║\n");
     printf("╠════════════════════════════════════════════════════════╣\n");
-
-   
     printf("║  " BRANCO "1." CINZA " Tela Principal                                     ║\n");
     printf("║  " BRANCO "2." CINZA " Sobre                                              ║\n");
     printf("║  " BRANCO "3." CINZA " Equipe                                             ║\n");
     printf("║  " BRANCO "4." CINZA " Sair                                               ║\n");
-
     printf("╚════════════════════════════════════════════════════════╝\n");
     printf(RESET "\n");
-
     printf(BRANCO "Digite sua escolha: " RESET);
 }

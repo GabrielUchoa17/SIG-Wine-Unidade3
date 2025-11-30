@@ -59,17 +59,14 @@ void telaAssinaturas(){
     printf("║             " AMARELO "M Ó D U L O   D E   A S S I N A T U R A S" BRANCO "            ║\n");
     printf("║                                                                  ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
-
     printf("║   " AMARELO "1." BRANCO " Cadastrar Assinaturas                        " BRANCO "               ║\n");
     printf("║   " AMARELO "2." BRANCO " Checar Assinaturas                             " BRANCO "             ║\n");
     printf("║   " AMARELO "3." BRANCO " Alterar Assinaturas                            " BRANCO "             ║\n");
     printf("║   " AMARELO "4." BRANCO " Excluir Assinaturas                            " BRANCO "             ║\n");
     printf("║   " AMARELO "5." BRANCO " Listar Assinaturas                            " BRANCO "              ║\n");
     printf("║   " AMARELO "6." BRANCO " Voltar                                         " BRANCO "             ║\n");
-
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET "\n");
-
     printf(BRANCO "Digite sua escolha: \n" RESET);
 }
 
@@ -101,13 +98,10 @@ void cadastroAssinatura(){
 void checarAssinaturas() {
     int idCom;
     Assinatura* assinatura;
-
     printf(BRANCO "Insira o id da assinatura: \n" RESET);
     scanf("%d", &idCom);
     getchar();
-
     assinatura = recuperarAssinatura(idCom);
-
     if (assinatura != NULL) {
         exibirAssinatura(assinatura);
         printf(CINZA "\nPressione Enter para voltar ao módulo de assinatura\n" RESET);
@@ -120,23 +114,19 @@ void checarAssinaturas() {
 
 void exibirAssinatura(const Assinatura* assinatura) {
  system("clear||cls");
-
     printf(BRANCO); 
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
     printf("║             " AMARELO "D A D O S   D A   A S S I N A T U R A" BRANCO "                ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf(RESET);
-
     printf(CINZA "║ Id: %-60d ║\n" RESET, assinatura->id);
     printf(BRANCO "║ Id do Assinante: %-47s ║\n" RESET, assinatura->idAssinante);
     printf(BRANCO "║ Id do Plano: %-51s ║\n" RESET, assinatura->idPlano);
     printf(BRANCO "║ Data da Assinatura: %-44s ║\n" RESET, assinatura->dataAssinatura);
     printf(BRANCO "║ Período de Vencimento: %-41s ║\n" RESET, assinatura->periodoVencimento);
-
     printf(BRANCO);
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET);
-
     printf(CINZA "\n>>> Tecle <ENTER> para continuar...\n" RESET);
     getchar();
 }
@@ -148,17 +138,13 @@ void alterarAssinatura() {
     int controle = 1;
     char idCom[10];
     Assinatura* assinatura;
-
     printf(BRANCO "Insira o id da assinatura que você quer alterar: \n" RESET);
     fgets(idCom, 10, stdin);
     tratarString(idCom);
-
     if (!(validarId(idCom, 3))) {
         return;
     }
-
     assinatura = recuperarAssinatura(atoi(idCom));
-
     do {
         if (assinatura != NULL) {
             exibirAssinatura(assinatura);
@@ -171,7 +157,6 @@ void alterarAssinatura() {
             if (opcao[1] != '\n') {
                 opcao[0] = 'l'; 
             }
-
             switch (opcao[0]) {
                 case '1':
                     alterarAssinaturaArquivo(atoi(idCom));
@@ -341,18 +326,15 @@ Assinatura* salvarAssinaturas() {
 Assinatura* criarAssinatura() {
     Assinatura* assinatura = (Assinatura*) malloc(sizeof(Assinatura));
     if (!assinatura) return NULL;
-
     assinatura->id = recuperarIdAssinaturas();
     return assinatura;
 }
 
 void preencherAssinatura(Assinatura* assinatura) {
     int idAss, idPlan;
-
     do {
         lerCampo(BRANCO "Insira o id do assinante:" RESET, assinatura->idAssinante, 20, validarIdAssinante, VERMELHO "❌ ID inválido!" RESET);
         idAss = atoi(assinatura->idAssinante);
-
         if (!existeAssinante(idAss)) {
             printf(VERMELHO "❌ Esse assinante NÃO existe! Digite novamente.\n" RESET);
         }
@@ -513,9 +495,7 @@ void atualizarCampoAssinatura(int idCom, const char* novoValor, int campo) {
 void listarAssinaturas(void) {
     FILE *arqAssinaturas;
     Assinatura* assinatura;
-
     system("clear||cls");
-
     printf(BRANCO);
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
     printf("║            " AMARELO "L I S T A G E M   D E   A S S I N A T U R A S" BRANCO "         ║\n");
@@ -529,14 +509,11 @@ void listarAssinaturas(void) {
         getchar();
         return;
     }
-
     assinatura = (Assinatura*) malloc(sizeof(Assinatura));
     int encontrou = 0;
-
     printf(BRANCO "┌────────┬──────────────┬──────────────┬───────────────────────────┐\n" RESET);
     printf(AMARELO "│  ID    │ ID Assinante │ ID Plano     │ Data Assinatura           │\n" RESET);
     printf(BRANCO "├────────┼──────────────┼──────────────┼───────────────────────────┤\n" RESET);
-
     while (fread(assinatura, sizeof(Assinatura), 1, arqAssinaturas)) {
         if (assinatura->status == True) {
             encontrou = 1;
@@ -553,10 +530,8 @@ void listarAssinaturas(void) {
         printf(BRANCO "│ " VERMELHO "%-56s" BRANCO " │\n" RESET, "Nenhuma assinatura encontrada.");
         printf(CINZA "└──────────────────────────────────────────────────────────┘\n" RESET);
     }
-
     fclose(arqAssinaturas);
     free(assinatura);
-
     printf(CINZA "\nPressione Enter para voltar ao menu.\n" RESET);
     getchar();
 }
