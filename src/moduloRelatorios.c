@@ -756,7 +756,6 @@ void relatorioProdutosPorAno(void) {
         lista = novoProduto;
     }
     fclose(fp);
-    Produto *aux = lista;
 
     if (lista == NULL) {
         system("clear||cls");
