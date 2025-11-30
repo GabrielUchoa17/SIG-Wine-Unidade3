@@ -77,7 +77,7 @@ void telaRelatorios(){
     system("clear||cls");
     printf(BRANCO);
     printf("╔═════════════════════════════════════════╗\n");
-    printf("║             " AMARELO "R E L A T Ó R I O S" BRANCO "             ║\n");
+    printf("║           " AMARELO "R E L A T Ó R I O S" BRANCO "           ║\n");
     printf("╠═════════════════════════════════════════╣\n");
     printf("║ " CIANO "1." BRANCO " Assinantes(Faixa Etária)             ║\n");
     printf("║ " CIANO "2." BRANCO " Assinaturas(Período)                 ║\n");
@@ -161,7 +161,13 @@ void relatorioAssinantesFaixaEtaria(){
 
 
     printf(BRANCO "\n┌──────┬────────────────────────────┬──────────────┐\n" RESET);
-    printf(AMARELO "│  ID  │ Nome                       │ Idade        │\n" RESET);
+    printf(
+    BRANCO "│  "
+    AMARELO "ID" RESET BRANCO "  │ "
+    AMARELO "Nome" RESET BRANCO "                       │ "
+    AMARELO "Idade" RESET BRANCO "        │\n"
+    );
+
     printf(BRANCO "├──────┼────────────────────────────┼──────────────┤\n" RESET);
 
     while(fread(assinante, sizeof(Assinante), 1, arqAssinantes)) {
@@ -356,7 +362,13 @@ void relatorioPlanosFaixaPreco() {
     }
 
     printf(BRANCO "\n┌──────┬────────────────────────────┬──────────────┐\n" RESET);
-    printf(AMARELO "│  ID  │ Nome                       │ Preço (R$)   │\n" RESET);
+    printf(
+    BRANCO "│  "
+    AMARELO "ID" RESET BRANCO "  │ "
+    AMARELO "Nome" RESET BRANCO "                       │ "
+    AMARELO "Preço (R$)" RESET BRANCO "   │\n"
+    );
+
     printf(BRANCO "├──────┼────────────────────────────┼──────────────┤\n" RESET);
 
     while(fread(plano, sizeof(Plano), 1, arqPlanos)) {
@@ -474,36 +486,53 @@ void relatorioPlanosPorProduto(void) {
 
     system("clear||cls");
 
-    printf(BRANCO "╔═════════════════════════════════════════════════════════════════════════════════════════╗\n" RESET);
-    printf(BRANCO "║                        " AMARELO "RELATÓRIO: PLANOS AGRUPADOS POR PRODUTO" BRANCO "                   ║\n" RESET);
-    printf(BRANCO "╠═════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
-    printf(AMARELO "║ %-25s | %-10s | %-15s | %-10s | %-15s   ║\n" RESET, 
-        "Nome do Produto", "ID Plano", "Nome do Plano", "Preço", "Período");
-    printf(BRANCO "╠═════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
+    printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════════╗\n" RESET);
 
+    printf(BRANCO "║                     "AMARELO"RELATÓRIO: PLANOS AGRUPADOS POR PRODUTO"
+        RESET BRANCO "                      ║\n");
+
+    printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
+
+    
+    printf(BRANCO "║ "
+       AMARELO "%-22s" RESET BRANCO " │ "
+       AMARELO "%-8s" RESET BRANCO " │ "
+       AMARELO "%-15s" RESET BRANCO " │ "
+       AMARELO "%-7s" RESET BRANCO " │ "
+       AMARELO "%-18s" RESET BRANCO " ║\n",
+       "Nome do Produto",
+       "ID Plano",
+       "Nome do Plano",
+       "Preço",
+       "Período");
+
+    printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
     while (fread(&plano, sizeof(Plano), 1, fp)) {
         if (plano.status == True) {
 
             Produto* prod = buscarProdutoPorID(plano.idProduto);
-
             char nomeProduto[100];
+            char corProduto[20] = ""; 
+
             if (prod != NULL) {
                 strcpy(nomeProduto, prod->nome);
                 free(prod);
             } else {
-                strcpy(nomeProduto, VERMELHO "Produto não encontrado" RESET);
+                strcpy(nomeProduto, "Produto não encontrado");
+                strcpy(corProduto, VERMELHO); 
             }
-            printf(BRANCO "║ %-25s | " CIANO "%-10d" BRANCO " | %-15s | %-10s | %-15s ║\n" RESET,
+            printf(BRANCO "║ %s%-22s" RESET BRANCO " │ " CIANO "%-8d" RESET BRANCO " │ %-15s │ %-6s │ %-17s ║\n",
+                corProduto, 
                 nomeProduto,
                 plano.id,
                 plano.nome,
                 plano.preco,
-                plano.periodo
-            );
+                plano.periodo);
+
         }
     }
 
-    printf(CINZA "╚═════════════════════════════════════════════════════════════════════════════════════════╝\n" RESET);
+    printf(CINZA "╚══════════════════════════════════════════════════════════════════════════════════╝\n" RESET);
 
     fclose(fp);
 
@@ -518,7 +547,7 @@ void relatorioAssinaturasPorCPF(void) {
     int idAssinanteEncontrado;
 
     printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════╗\n" RESET);
-    printf(BRANCO "║                            " AMARELO "RELATÓRIO: ASSINATURAS POR CPF" BRANCO "                ║\n" RESET);
+    printf(BRANCO "║                        " AMARELO "RELATÓRIO: ASSINATURAS POR CPF" BRANCO "                        ║\n" RESET);
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════╣\n" RESET);
     printf(BRANCO "Digite o CPF do assinante: " RESET);
     fgets(cpfBusca, 20, stdin);
@@ -593,63 +622,111 @@ void relatorioAssinaturasPorCPF(void) {
     printf(CINZA "\nPressione ENTER para continuar..." RESET);
     getchar();
 }
-
-void relatorioPlanosPorPeriodo(void){
+void relatorioPlanosPorPeriodo(void) {
     system("clear||cls");
 
-    Plano* lista = quantidadePlanos();
-    Plano* pl = lista;
+    FILE *fp;
+    Plano temp;
+    Plano *lista = NULL;
+    Plano *ultimo = NULL;
+    Plano *novo;
+
+    int qtdMensal = 0;
+    int qtdTrimestral = 0;
+    int qtdSemestral = 0;
+    int qtdAnual = 0;
+
+    fp = fopen("./dados/dadosPlanos.dat", "rb");
+    if (fp == NULL) {
+        printf(VERMELHO "Erro ao abrir arquivo de planos!\n" RESET);
+        printf(CINZA "\nPressione ENTER para voltar...\n" RESET);
+        getchar();
+        return;
+    }
+
+    while (fread(&temp, sizeof(Plano), 1, fp) == 1) {
+        if (temp.status == True) {
+            novo = (Plano*) malloc(sizeof(Plano));
+            *novo = temp;
+            novo->prox = NULL;
+            if (lista == NULL) {
+                lista = novo;
+            } else {
+                ultimo->prox = novo;
+            }
+            ultimo = novo;
+        }
+    }
+    fclose(fp);
 
     if (lista == NULL) {
-        printf(VERMELHO "Nenhum plano ativo encontrado ou erro ao ler o arquivo!\n" RESET);
-        printf(CINZA "\nPressione ENTER para voltar ao menu...\n" RESET);
-        getchar(); 
-        return; 
+        printf(VERMELHO "Nenhum plano ativo encontrado!\n" RESET);
+        printf(CINZA "\nPressione ENTER para voltar...\n" RESET);
+        getchar();
+        return;
     }
 
-    int quantidadeMensal = 0;
-    int quantidadeTrimestral = 0;
-    int quantidadeSemestral = 0;
-    int quantidadeAnual = 0;
+    printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════╗\n" RESET);
+    printf(BRANCO "║                      " AMARELO  "RELATÓRIO DE PLANOS POR PERÍODO" BRANCO "                     ║\n" RESET);
+    printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════╣\n" RESET);
+    printf(BRANCO "║ "
+       AMARELO "%-6s" RESET BRANCO " │ "
+       AMARELO "%-20s" RESET BRANCO " │ "
+       AMARELO "%-11s" RESET BRANCO " │ "
+       AMARELO "%-13s" RESET BRANCO " │ "
+       AMARELO "%-12s" RESET BRANCO " ║ \n",
+       "ID", "Nome", "Preço", "Período", "Produto");
 
-    while( pl != NULL){
-        char letra = toupper(pl->periodo[0]);
+    printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════╣\n" RESET);
 
-        if(letra == 'M'){
-            quantidadeMensal++;
-        } else if(letra == 'T') {
-            quantidadeTrimestral++;
-        } else if(letra == 'S'){
-            quantidadeSemestral++;
-        } else if(letra == 'A'){
-            quantidadeAnual++;
-        }
-        pl = pl->prox;
+    Plano *p = lista;
+    while (p != NULL) {
+
+        printf(BRANCO "║ %-6d │ %-20s │ %-10s │ %-12s │ %-12s ║\n" RESET,
+               p->id,
+               p->nome,
+               p->preco,
+               p->periodo,
+               p->idProduto);
+
+        if (strcmp(p->periodo, "Mensal") == 0)
+            qtdMensal++;
+        else if (strcmp(p->periodo, "Trimestral") == 0)
+            qtdTrimestral++;
+        else if (strcmp(p->periodo, "Semestral") == 0)
+            qtdSemestral++;
+        else if (strcmp(p->periodo, "Anual") == 0)
+            qtdAnual++;
+
+        p = p->prox;
     }
+
+    printf(CINZA "╚══════════════════════════════════════════════════════════════════════════╝\n\n" RESET);
+
     
-    printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════════════════╗\n" RESET);
-    printf(BRANCO "║                             " AMARELO "RELATÓRIO: PLANOS POR PERÍODO" BRANCO "                                ║\n" RESET);
-    printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
-    printf(AMARELO "║ %-15s │ %-10s │ %-12s │ %-12s │ %-10s ║\n" RESET, 
-        "Categoria", "Mensal", "Trimestral", "Semestral", "Anual");
-    printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
-    printf(BRANCO "║ %-15s │ " CIANO "%-10d" BRANCO " │ " CIANO "%-12d" BRANCO " │ " CIANO "%-12d" BRANCO " │ " CIANO "%-10d" BRANCO " ║\n" RESET,
-        "Quantidade",
-        quantidadeMensal,
-        quantidadeTrimestral,
-        quantidadeSemestral,
-        quantidadeAnual);
-    printf(CINZA "╚══════════════════════════════════════════════════════════════════════════════════════════╝\n" RESET);
+    printf(BRANCO "╔═══════════════╦════════════╗\n" RESET);
+    printf(BRANCO "║ " RESET AMARELO "%-14s" RESET BRANCO " ║ " RESET AMARELO "%-10s" RESET BRANCO " ║\n" RESET,
+        "Período", "Quantidade");
+    printf(BRANCO "╠═══════════════╬════════════╣\n" RESET);
+    printf(BRANCO  "║ %-13s ║ %10d ║\n" RESET, "Mensal", qtdMensal);
+    printf(BRANCO  "║ %-13s ║ %10d ║\n" RESET, "Trimestral", qtdTrimestral);
+    printf(BRANCO  "║ %-13s ║ %10d ║\n" RESET, "Semestral", qtdSemestral);
+    printf(BRANCO  "║ %-13s ║ %10d ║\n" RESET, "Anual", qtdAnual);
 
-    pl = lista;
-    while(pl != NULL){
-        Plano* temp = pl->prox;
-        free(pl);
-        pl = temp;
+    printf(BRANCO "╚═══════════════╩════════════╝\n" RESET);
+
+
+    p = lista;
+    while (p != NULL) {
+        Plano *tmp = p->prox;
+        free(p);
+        p = tmp;
     }
-    printf(CINZA "\nPressione ENTER para voltar ao menu..." RESET);
+
+    printf(CINZA "\nPressione ENTER para voltar..." RESET);
     getchar();
 }
+
 
 void relatorioProdutosPorAno(void) {
     FILE *fp = fopen("./dados/dadosProdutos.dat", "rb");
@@ -702,14 +779,23 @@ void relatorioProdutosPorAno(void) {
 
     system("clear||cls");
     printf(BRANCO "╔══════════════════════════════════════════════════════════════════════════════════════════╗\n" RESET);
-    printf(BRANCO "║              " AMARELO "RELATÓRIO: PRODUTOS POR FAIXAS DE ANO (ORDEM INVERSA)" BRANCO "             ║\n" RESET);
+    printf(BRANCO "║                    " AMARELO "RELATÓRIO: PRODUTOS POR FAIXAS DE ANO (ORDEM INVERSA)" BRANCO "                 ║\n" RESET);
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
 
     
     for (int f = 0; f < 5; f++) {
         printf(BRANCO "║ Faixa: " CIANO "%-81s" BRANCO " ║\n" RESET, faixas[f].titulo);
         printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
-        printf(AMARELO "║ %-5s │ %-25s │ %-15s │ %-15s │ %-16s ║\n" RESET, "ID", "Nome", "Tipo", "Marca", "Ano");
+        printf(
+            BRANCO "║ "
+            AMARELO "%-5s"   RESET BRANCO " │ "
+            AMARELO "%-25s"  RESET BRANCO " │ "
+            AMARELO "%-15s"  RESET BRANCO " │ "
+            AMARELO "%-15s"  RESET BRANCO " │ "
+            AMARELO "%-16s"  RESET BRANCO " ║\n",
+            "ID", "Nome", "Tipo", "Marca", "Ano"
+        );
+
         printf(BRANCO "╠══════════════════════════════════════════════════════════════════════════════════════════╣\n" RESET);
 
         int encontrou = 0;
@@ -722,7 +808,7 @@ void relatorioProdutosPorAno(void) {
             int ano = atoi(aux->anoProducao);
             if (ano >= faixas[f].ini && ano <= faixas[f].fim) {
                 encontrou = 1;
-                printf(BRANCO "║ " CIANO "%-5d" BRANCO " │ %-25s │ %-15s │ %-15s │ %-8s ║\n" RESET,
+                printf(BRANCO "║ " CIANO "%-5d" BRANCO " │ %-25s │ %-15s │ %-15s │ %-16s ║\n" RESET,
                     aux->id,
                     aux->nome,
                     aux->tipo,
@@ -817,7 +903,14 @@ void telaAssinantesOrdemAlfabetica(Assinante *aux) {
     printf(BRANCO "╠══════════════════════════════════════════════════════════════════╣\n" RESET);
 
     printf(BRANCO "┌────┬────────────────────────────┬────────────────────────────────┐\n" RESET);
-    printf(AMARELO "│ Nº │ Nome                       │ CPF                            │\n" RESET);
+    printf(
+        BRANCO "│ "
+        AMARELO "Nº" RESET BRANCO " │ "
+        AMARELO "%-26s" RESET BRANCO " │ "
+        AMARELO "%-30s" RESET BRANCO " │\n",
+        "Nome",
+        "CPF"
+    );
     printf(BRANCO "├────┼────────────────────────────┼────────────────────────────────┤\n" RESET);
 
     while (aux != NULL) {
