@@ -8,7 +8,6 @@
     void relatorioAssinaturasPeriodo();
     void relatorioPlanosFaixaPreco();
     void relatorioProdutosPorMarca();
-    void relatorioPlanosPorProduto();
     void relatorioAssinaturasPorCPF();
     void relatorioPlanosPorPeriodo();
     void relatorioProdutosPorAno();

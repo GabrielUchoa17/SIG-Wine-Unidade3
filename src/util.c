@@ -86,11 +86,9 @@ void inicializarPlanos(){
 int recuperarIdAssinantes(void) {
    FILE *arqAssinante = fopen("./dados/dadosAssinantes.dat", "rb");
     if (arqAssinante == NULL) {
-        printf("Erro ao abrir arqAssinanteuivo!\n");
-        getchar();
-        return 0; 
+        return 1; 
     }
-    int ultimoId = -1;
+    int ultimoId = 0; 
     Assinante assinante;
     while (fread(&assinante, sizeof(Assinante), 1, arqAssinante) == 1) {
         if (assinante.id > ultimoId) {
@@ -105,11 +103,9 @@ int recuperarIdAssinantes(void) {
 int recuperarIdAssinaturas(void) {
     FILE *arqAssinaturas = fopen("./dados/dadosAssinaturas.dat", "rb");
     if (arqAssinaturas == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
-        getchar();
-        return 0; 
+        return 1; 
     }
-    int ultimoId = -1;
+    int ultimoId = 0; 
     Assinatura assinatura;
     while (fread(&assinatura, sizeof(Assinatura), 1, arqAssinaturas) == 1) {
         if (assinatura.id > ultimoId) {
@@ -124,11 +120,9 @@ int recuperarIdAssinaturas(void) {
 int recuperarIdPlanos(void) {
     FILE *arqPlanos = fopen("./dados/dadosPlanos.dat", "rb");
     if (arqPlanos == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
-        getchar();
-        return 0; 
+        return 1; 
     }
-    int ultimoId = -1;
+    int ultimoId = 0; 
     Plano plano;
     while (fread(&plano, sizeof(Plano), 1, arqPlanos) == 1) {
         if (plano.id > ultimoId) {
@@ -143,11 +137,9 @@ int recuperarIdPlanos(void) {
 int recuperarIdProdutos(void) {
     FILE *arqProdutos = fopen("./dados/dadosProdutos.dat", "rb");
     if (arqProdutos == NULL) {
-        printf("Erro ao abrir o arquivo!\n");
-        getchar();
-        return 0; 
+        return 1; 
     }
-    int ultimoId = -1;
+    int ultimoId = 0; 
     Produto produto;
     while (fread(&produto, sizeof(Produto), 1, arqProdutos) == 1) {
         if (produto.id > ultimoId) {

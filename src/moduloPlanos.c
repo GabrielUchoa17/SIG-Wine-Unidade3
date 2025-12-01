@@ -71,6 +71,7 @@ void telaPlano(){
 }
 
 void cadastroPlano(){
+    system("clear||cls");
     Plano* plano;
     FILE* arqPlano;
     plano = salvarPlanos();
@@ -97,6 +98,7 @@ void cadastroPlano(){
 
 
 void checarPlanos() {
+    system("clear||cls");
     int idCom;
     Plano* plano;
 
@@ -125,7 +127,6 @@ void exibirPlano(const Plano* plano) {
     printf(BRANCO "║ Nome: %-58s ║\n" RESET, plano->nome);
     printf(BRANCO "║ Preço: %-57s ║\n" RESET, plano->preco);
     printf(BRANCO "║ Período: %-55s ║\n" RESET, plano->periodo);
-    printf(BRANCO "║ Id do Produto: %-49s ║\n" RESET, plano->idProduto);
     printf(BRANCO);
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf(RESET);
@@ -135,6 +136,7 @@ void exibirPlano(const Plano* plano) {
 
 
 void alterarPlano() {
+    system("clear||cls");
     char opcao[10];
     int controle = 1;
     char idCom[10];
@@ -183,6 +185,7 @@ void alterarPlano() {
 
 
 void excluirPlano(){
+    system("clear||cls");
     char opcao[10];
     int controle = 1;
     char idCom[10];
@@ -229,19 +232,18 @@ char confirmarInfoPlano(const Plano* plano){
     char opcao[10];
     int controleCI = 1;
     do {
-        printf(CIANO "╔═════════════════════════════╗\n" RESET);
-        printf(CIANO "║          " AMARELO "Confirmação" CIANO "        ║\n" RESET);
-        printf(CIANO "╠═════════════════════════════╝\n" RESET);
+        printf("╔═════════════════════════════╗\n");
+        printf("║          " AMARELO "Confirmação" RESET "        ║\n");
+        printf("╠═════════════════════════════╝\n");
         printf(BRANCO "║ Id: %d \n" RESET, plano->id);
         printf(BRANCO "║ Nome: %s \n" RESET, plano->nome);
         printf(BRANCO "║ Preço: %s \n" RESET, plano->preco);
         printf(BRANCO "║ Período: %s \n" RESET, plano->periodo);
-        printf(BRANCO "║ Id do produto: %s \n" RESET, plano->idProduto);
-        printf(CIANO "╠═════════════════════════════╗\n" RESET);
-        printf(BRANCO "║ Deseja manter essas infos?  ║\n" RESET);
-        printf(AMARELO "║ 1. Sim                      ║\n" RESET);
-        printf(VERMELHO "║ 2. Não                      ║\n" RESET);
-        printf(CIANO "╚═════════════════════════════╝\n" RESET);
+        printf( "╠═════════════════════════════╗\n" RESET);
+        printf("║ Deseja manter essas infos?  ║\n");
+        printf("║ " AMARELO "1. Sim" RESET "                      ║\n");
+        printf("║ " VERMELHO "2. Não" RESET "                      ║\n");
+        printf("╚═════════════════════════════╝\n");
         fgets(opcao,10, stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -393,7 +395,7 @@ Plano* criarPlano() {
     return plano;
 }
 void preencherPlano(Plano* plano) {
-    lerCampo(BRANCO "Insira o nome:" RESET, plano->nome, 20, validarNomeObjeto, VERMELHO "❌ Nome de produto inválido! Digite novamente." RESET);
+    lerCampo(BRANCO "Insira o nome:" RESET, plano->nome, 20, validarNomeObjeto, VERMELHO "❌ Nome de plano inválido! Digite novamente." RESET);
     lerCampo(BRANCO "Insira o preço (ex: 49.90 ou 49,90):" RESET, plano->preco, 20, validarPreco, VERMELHO "❌ Preço inválido! Digite novamente." RESET);
 
     lerCampo(BRANCO "Insira o período (M - Mensal, T - Trimestral, S - Semestral, A - Anual):" RESET,
@@ -408,17 +410,6 @@ void preencherPlano(Plano* plano) {
         default:  strcpy(plano->periodo, "Desconhecido");
     }
 
-     int idProd;
-
-    do {
-        lerCampo(BRANCO "Insira o ID do produto:" RESET, plano->idProduto, 20, NULL, "");
-
-        idProd = atoi(plano->idProduto);
-
-        if (!existeProduto(idProd))
-            printf(VERMELHO "❌ Esse produto NÃO existe! Digite novamente.\n" RESET);
-
-    } while (!existeProduto(idProd));
 }
 
 void alterarPlanoArquivo(int idCom){
@@ -427,8 +418,8 @@ void alterarPlanoArquivo(int idCom){
     system("clear||cls");
     do {
         printf(CIANO "║Qual campo você quer alterar?\n" RESET);
-        printf(BRANCO "║1. Nome\n║2. Preço\n║3. Período\n║4.Id do Produto\n" RESET);
-        printf(AMARELO "║5. Sair\n" RESET);
+        printf(BRANCO "║1. Nome\n║2. Preço\n║3. Período\n" RESET);
+        printf(AMARELO "║4. Sair\n" RESET); 
         fgets(opcao,10,stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -474,24 +465,7 @@ void alterarPlanoArquivo(int idCom){
             atualizarCampoPlano(idCom, periodoNovo, 3);
             controle = 0;
         break;
-        case '4':
-            char idProdNovo[20];
-            int idProd;
-            do {
-                printf(BRANCO "Insira o novo ID do produto:\n" RESET);
-                fgets(idProdNovo,20,stdin);
-                tratarString(idProdNovo);
-                idProd = atoi(idProdNovo);
-                if (!(validarId(idProdNovo, 2))) {
-                    printf(VERMELHO "❌ ID inválido! Digite novamente.\n" RESET);
-                } else if (!existeProduto(idProd)) {
-                    printf(VERMELHO "❌ Esse produto NÃO existe! Digite novamente.\n" RESET);
-                }
-            } while (!(validarId(idProdNovo, 2) && existeProduto(idProd)));  
-            atualizarCampoPlano(idCom, idProdNovo, 4);
-            controle = 0;
-        break;
-        case '5':
+        case '4': 
             controle = 0;
         break; 
        default:
@@ -523,7 +497,6 @@ void atualizarCampoPlano(int idCom, const char* novoValor, int campo) {
                     strcpy(plano->preco, novoValor);
                     break;
                 case 3: 
-                    // Se for período, atualiza o valor completo (Mensal, Anual, etc.)
                     if (validarPeriodoVencimento(novoValor)) {
                         char letra = toupper(novoValor[0]);
                         switch (letra) {
@@ -531,14 +504,11 @@ void atualizarCampoPlano(int idCom, const char* novoValor, int campo) {
                             case 'T': strcpy(plano->periodo, "Trimestral"); break;
                             case 'S': strcpy(plano->periodo, "Semestral"); break;
                             case 'A': strcpy(plano->periodo, "Anual"); break;
-                            default:  strcpy(plano->periodo, novoValor); // Mantém o valor se for o nome completo
+                            default:  strcpy(plano->periodo, novoValor); 
                         }
                     } else {
                         strcpy(plano->periodo, novoValor);
                     }
-                    break;
-                case 4: 
-                    strcpy(plano->idProduto, novoValor);
                     break;
                 default:
                     break;
@@ -566,9 +536,9 @@ void listarPlanos(void) {
     system("clear||cls");
 
     printf(BRANCO);
-    printf("╔════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                                        " AMARELO "L I S T A G E M   D E   P L A N O S" BRANCO "                                             ║\n");
-    printf("╠════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("╔══════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                   " AMARELO "L I S T A G E M   D E   P L A N O S" BRANCO "                            ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════════════╣\n");
     printf(RESET);
 
     arqPlano = fopen("./dados/dadosPlanos.dat", "rb");
@@ -581,29 +551,42 @@ void listarPlanos(void) {
 
     plano = (Plano*) malloc(sizeof(Plano));
     int encontrou = 0;
-    printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────────┬────────────────────────────┬────────────────────────┐\n" RESET);
-    printf(AMARELO "│   ID   │ Nome                       │ Preço                      │ Período                    │ ID Produto             │\n" RESET);
-    printf(BRANCO "├────────┼────────────────────────────┼────────────────────────────┼────────────────────────────┼────────────────────────┤\n" RESET);
+
+    printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────┬───────────────────┐\n" RESET);
+    printf("│ "AMARELO"ID" RESET "     │ "
+       AMARELO "Nome" RESET "                       │ "
+       AMARELO "Preço" RESET "                  │ "
+       AMARELO "Período" RESET "           │\n");
+
+    printf(BRANCO "├────────┼────────────────────────────┼────────────────────────┼───────────────────┤\n" RESET);
 
     while (fread(plano, sizeof(Plano), 1, arqPlano)) {
         if (plano->status == True) {
             encontrou = 1;
-            printf(BRANCO "│ " CIANO "%-6d" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │ " CIANO "%-26.26s" BRANCO " │ " BRANCO "%-26.26s" BRANCO " │ " CIANO "%-22.22s" BRANCO " │\n" RESET,
-                   plano->id,
-                   plano->nome,
-                   plano->preco,
-                   plano->periodo,
-                   plano->idProduto);
+
+            printf(BRANCO "│ " CIANO "%-6d" BRANCO 
+                   " │ %-26.26s"
+                   " │ " CIANO "%-22.22s" BRANCO
+                   " │ %-17.17s │\n" RESET,
+                plano->id,
+                plano->nome,
+                plano->preco,
+                plano->periodo
+            );
         }
     }
+
     if (encontrou) {
-        printf(CINZA "└────────┴────────────────────────────┴────────────────────────────┴────────────────────────────┴────────────────────────┘\n" RESET);
+        printf(BRANCO "└────────┴────────────────────────────┴────────────────────────┴───────────────────┘\n" RESET);
     } else {
-        printf(BRANCO "│ " VERMELHO "%-108s" BRANCO " │\n" RESET, "Nenhum plano encontrado.");
-        printf(CINZA "└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n" RESET);
+        printf(BRANCO "│ " VERMELHO "%-80s" BRANCO " │\n" RESET,                    "Nenhum plano encontrado.");
+        printf(BRANCO "└──────────────────────────────────────────────────────────────────────────────────┘\n" RESET);
+
     }
+
     fclose(arqPlano);
     free(plano);
+
     printf(CINZA "\nPressione Enter para voltar ao menu.\n" RESET);
     getchar();
 }

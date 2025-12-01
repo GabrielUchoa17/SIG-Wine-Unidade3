@@ -72,6 +72,7 @@ void telaAssinante() {
 }
 
 void cadastrarAssinante(){
+    system("clear||cls");
     Assinante* assinante;
     FILE* arqAssinante;
     assinante = salvarAssinantes();
@@ -98,6 +99,7 @@ void cadastrarAssinante(){
 
 
 void checarAssinantes() {
+    system("clear||cls");
     int idCom;
     Assinante* assinante;
     printf(BRANCO "Insira o id do assinante: \n" RESET);
@@ -137,6 +139,7 @@ void exibirAssinante(const Assinante* assinante) {
 }
 
 void alterarAssinante() {
+    system("clear||cls");
     char opcao[10];
     int controle = 1;
     char idCom[10];
@@ -182,6 +185,7 @@ void alterarAssinante() {
 }
 
 void excluirAssinante(){
+    system("clear||cls");
     char opcao[10];
     int controle = 1;
     char idCom[10];
@@ -229,19 +233,20 @@ int confirmarInfoAss(const Assinante* assinante){
     char opcao[10];
     int controleCI = 1;
     do {
-        printf(CIANO "╔═════════════════════════════╗\n" RESET);
-        printf(CIANO "║          " AMARELO "Confirmação" CIANO "        ║\n" RESET);
-        printf(CIANO "╠═════════════════════════════╝\n" RESET);
-        printf(BRANCO "║ Nome: %s \n" RESET, assinante->nome);
-        printf(BRANCO "║ Email: %s \n" RESET, assinante->email);
-        printf(BRANCO "║ CPF: %s \n" RESET, assinante->cpf);
-        printf(BRANCO "║ Data: %s \n" RESET, assinante->dataNascimento);
-        printf(BRANCO "║ Endereço: %s \n" RESET, assinante->endereco);
-        printf(CIANO "╠═════════════════════════════╗\n" RESET);
-        printf(BRANCO "║ Deseja manter essas infos?  ║\n" RESET);
-        printf(AMARELO "║ 1. Sim                      ║\n" RESET);
-        printf(VERMELHO "║ 2. Não                      ║\n" RESET);
-        printf(CIANO "╚═════════════════════════════╝\n" RESET);
+        printf("╔═════════════════════════════╗\n");
+        printf("║          " AMARELO "Confirmação" RESET "        ║\n");
+        printf("╠═════════════════════════════╝\n");
+        printf("║ Nome: %s\n", assinante->nome);
+        printf("║ Email: %s\n", assinante->email);
+        printf("║ CPF: %s\n", assinante->cpf);
+        printf("║ Data: %s\n", assinante->dataNascimento);
+        printf("║ Endereço: %s\n", assinante->endereco);
+        printf("╠═════════════════════════════╗\n");
+        printf("║ Deseja manter essas infos?  ║\n");
+        printf("║ " AMARELO "1. Sim" RESET "                      ║\n");
+        printf("║ " VERMELHO "2. Não" RESET "                      ║\n");
+        printf("╚═════════════════════════════╝\n");
+
         fgets(opcao,10, stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -507,7 +512,7 @@ void listarAssinantes(void) {
     int encontrou = 0;
     
     printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────────┐\n" RESET);
-    printf(AMARELO "│ ID     │ Nome                       │ CPF                        │\n" RESET);
+    printf("│ " AMARELO "ID" RESET "     │ " AMARELO "Nome" RESET "                       │ " AMARELO "CPF" RESET "                        │\n");
     printf(BRANCO "├────────┼────────────────────────────┼────────────────────────────┤\n" RESET);
 
     while (fread(assinante, sizeof(Assinante), 1, arqAssinantes)) {

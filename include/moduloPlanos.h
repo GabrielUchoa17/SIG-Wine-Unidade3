@@ -8,7 +8,6 @@
         char nome[100];
         char preco[100];
         char periodo[20];
-        char idProduto[20];
         int status;
         struct plano* prox; 
     };

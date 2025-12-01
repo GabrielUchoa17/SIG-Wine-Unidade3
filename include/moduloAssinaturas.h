@@ -6,21 +6,20 @@
     struct assinatura{
         int id;
         char idAssinante[20];
-        char idPlano[20];
         char dataAssinatura[20];
         char periodoVencimento[20];
         int status;
     };
-    void telaAssinaturas(void);
-    void menuAssinaturas(void);
-    void cadastroAssinatura(void);
-    void checarAssinaturas(void);
+    void telaAssinaturas();
+    void menuAssinaturas();
+    void cadastroAssinatura();
+    void checarAssinaturas();
     void exibirAssinatura(const Assinatura* assinatura);
-    void alterarAssinatura(void);
-    void excluirAssinatura(void);
+    void alterarAssinatura();
+    void excluirAssinatura();
     char confirmarInfoAssinatura(const Assinatura*);
     Assinatura* salvarAssinaturas();
-    Assinatura* recuperarAssinatura();
+    Assinatura* recuperarAssinatura(int);
     Assinatura* criarAssinatura();
     void preencherAssinatura(Assinatura* assinatura);
     void excluirAssinaturaArquivo(int);
