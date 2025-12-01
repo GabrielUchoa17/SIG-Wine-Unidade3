@@ -74,6 +74,7 @@ void telaProdutos(){
 
 
 void cadastroProduto(){
+    system("clear||cls");
     Produto* produto;
     FILE* arqProduto;
     produto = salvarProdutos();
@@ -100,6 +101,7 @@ void cadastroProduto(){
 
 
 void checarProdutos() {
+    system("clear||cls");
     int idCom;
     Produto* produto;
 
@@ -140,6 +142,7 @@ void exibirProduto(const Produto* produto) {
 
 
 void alterarProduto(){
+    system("clear||cls");
     char opcao[10];
     int controle = 1;
     char idCom[10];
@@ -188,6 +191,7 @@ void alterarProduto(){
 
 
 void excluirProduto(){
+    system("clear||cls");
     char opcao[10];
     int controle = 1;
     char idCom[10];
@@ -236,19 +240,19 @@ char confirmarInfoProd(const Produto* produto){
     char opcao[10];
     int controleCI = 1;
     do {
-        printf(CIANO "╔═════════════════════════════╗\n" RESET);
-        printf(CIANO "║          " AMARELO "Confirmação" CIANO "        ║\n" RESET);
-        printf(CIANO "╠═════════════════════════════╝\n" RESET);
+        printf("╔═════════════════════════════╗\n");
+        printf("║          " AMARELO "Confirmação" RESET "        ║\n");
+        printf("╠═════════════════════════════╝\n");
         printf(BRANCO "║ Id: %d \n" RESET, produto->id);
         printf(BRANCO "║ Nome: %s \n" RESET, produto->nome);
         printf(BRANCO "║ Tipo: %s \n" RESET, produto->tipo);
         printf(BRANCO "║ Marca: %s \n" RESET, produto->marca);
         printf(BRANCO "║ Ano de Produção: %s \n" RESET, produto->anoProducao);
-        printf(CIANO "╠═════════════════════════════╗\n" RESET);
-        printf(BRANCO "║ Deseja manter essas infos?  ║\n" RESET);
-        printf(AMARELO "║ 1. Sim                      ║\n" RESET);
-        printf(VERMELHO "║ 2. Não                      ║\n" RESET);
-        printf(CIANO "╚═════════════════════════════╝\n" RESET);
+        printf( "╠═════════════════════════════╗\n" RESET);
+        printf("║ Deseja manter essas infos?  ║\n");
+        printf("║ " AMARELO "1. Sim" RESET "                      ║\n");
+        printf("║ " VERMELHO "2. Não" RESET "                      ║\n");
+        printf("╚═════════════════════════════╝\n");
         fgets(opcao,10, stdin);
         if (opcao[1] != '\n'){
             opcao[0] = 'l';
@@ -326,10 +330,6 @@ void excluirProdutoArquivo(int idCom){
     free(produto);
 }
 
-
- 
-
-
 Produto* salvarProdutos() {
     Produto* produto;
     produto = (Produto*) malloc(sizeof(Produto));
@@ -386,7 +386,7 @@ void alterarProdutoArquivo(int idCom){
     system("clear||cls");
     do {
         printf(CIANO "║Qual campo você quer alterar?\n" RESET);
-        printf(BRANCO "║1. Nome\n║2. Tipo\n║3. Marca\n║4.Ano de Produção\n" RESET);
+        printf(BRANCO "║1. Nome\n║2. Tipo\n║3. Marca\n║4. Ano de Produção\n" RESET);
         printf(AMARELO "║5. Sair\n" RESET);
         fgets(opcao,10,stdin);
         if (opcao[1] != '\n'){
@@ -443,7 +443,7 @@ void alterarProdutoArquivo(int idCom){
                     printf(VERMELHO "❌ Ano inválido! Digite um ano entre 1900 e 2025.\n" RESET);
                 }
             } while (!validarAnoProducao(anoProdNovo));
-            atualizarCampoProduto(idCom, anoProdNovo, 4); // Corrigido: 'marcaNovo' para 'anoProdNovo' e tipoCampo para 4
+            atualizarCampoProduto(idCom, anoProdNovo, 4); 
             controle = 0;
         break;
         case '5':
@@ -526,7 +526,12 @@ void listarProdutos(void) {
     int encontrou = 0;
 
     printf(BRANCO "┌────────┬────────────────────────────┬────────────────────────────┬────────────────────────────┬────────────────────────┐\n" RESET);
-    printf(AMARELO "│   ID   │ Nome                       │ Tipo                       │ Marca                      │ Ano de Produção        │\n" RESET);
+    printf("│  "AMARELO "ID" RESET
+       "    │ " AMARELO "Nome" RESET "                       │ "
+       AMARELO "Tipo" RESET "                       │ "
+       AMARELO "Marca" RESET "                      │ "
+       AMARELO "Ano de Produção" RESET "        │\n");
+
     printf(BRANCO "├────────┼────────────────────────────┼────────────────────────────┼────────────────────────────┼────────────────────────┤\n" RESET);
 
    
@@ -545,8 +550,8 @@ void listarProdutos(void) {
     if (encontrou) {
         printf(CINZA "└────────┴────────────────────────────┴────────────────────────────┴────────────────────────────┴────────────────────────┘\n" RESET);
     } else {
-        printf(BRANCO "│ " VERMELHO "%-108s" BRANCO " │\n" RESET, "Nenhum produto encontrado.");
-        printf(CINZA "└──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n" RESET);
+        printf(BRANCO "│ " VERMELHO "%-118s" BRANCO " │\n" RESET, "Nenhum produto encontrado.");
+        printf(CINZA "└────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘\n" RESET);
     }
 
     fclose(arqProduto);
