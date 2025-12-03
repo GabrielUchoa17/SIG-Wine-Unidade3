@@ -73,7 +73,7 @@ void telaEquipe() {
     printf("║ Gabriel Samir Costa Uchoa Monteiro   ║\n");
     printf("║ Email:samirgabriel282@gmail.com      ║\n");
     printf("║ Git:https://github.com/GabrielUchoa17║\n");
-    printf("╚═════════════════════════════════════╝\n");
+    printf("╚══════════════════════════════════════╝\n");
     printf("\n");
     printf(">>> Tecle <ENTER> para continuar...\n");
     getchar();

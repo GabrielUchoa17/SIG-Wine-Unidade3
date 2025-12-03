@@ -333,7 +333,9 @@ void excluirProdutoArquivo(int idCom){
 Produto* salvarProdutos() {
     Produto* produto;
     produto = (Produto*) malloc(sizeof(Produto));
-    if (!produto) return NULL;
+    if (!produto) {
+        return NULL;
+    }
 
     produto->id = recuperarIdProdutos();
 
