@@ -288,10 +288,6 @@ void relatorioAssinaturasPeriodo(){
     getchar();
 }
 
-
-
-
-
 void relatorioPlanosFaixaPreco() {
     FILE *arqPlanos;
     Plano* plano;
@@ -797,6 +793,7 @@ void assinantesOrdemAlfabetica(Assinante **lista) {
     fclose(fp);
 }
 
+// CRÉDITOS: Flávius Gorgônio, projeto "LínguaSolta"
 void telaAssinantesOrdemAlfabetica(Assinante *aux) {
     int count = 0;
     int encontrou = 0;
@@ -837,7 +834,7 @@ void telaAssinantesOrdemAlfabetica(Assinante *aux) {
     printf(CINZA "\nPressione ENTER para continuar..." RESET);
     getchar();
 }
-
+// CRÉDITOS: Flávius Gorgônio, projeto "LínguaSolta"
 void assinantesOrdemCPF(Assinante **lista) {
     FILE *fp;
     Assinante *assinante;
@@ -879,6 +876,7 @@ void assinantesOrdemCPF(Assinante **lista) {
     free(assinante);
     fclose(fp);
 }
+
 void telaAssinantesOrdemCPF(Assinante *aux) {
     int count = 0;
     int encontrou = 0;

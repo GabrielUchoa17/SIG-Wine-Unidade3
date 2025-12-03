@@ -285,7 +285,9 @@ Assinante* salvarAssinantes() {
 
 Assinante* criarAssinante() {
     Assinante* a = (Assinante*) malloc(sizeof(Assinante));
-    if (!a) return NULL;
+    if (!a) {
+        return NULL;
+    }
 
     a->id = recuperarIdAssinantes();
     return a;
@@ -310,7 +312,7 @@ Assinante* recuperarAssinante(int idCom){
         return NULL;
     }
     assinante = (Assinante*) malloc(sizeof(Assinante));
-    while (fread(assinante,sizeof(Assinante),1,arqAssinantes)){
+    while (fread(assinante,sizeof(Assinante),1,arqAssinantes)){ // ponteiro do arquivo, tamanho do bloco, numero de blocos, arquivo, lê os dados do arquivo 
         if((idCom == assinante->id) && (assinante->status == True)){
             fclose(arqAssinantes);
             return assinante;
@@ -453,7 +455,7 @@ void atualizarCampoAssinante(int idCom, const char* novoValor, int campo) {
         if ((idCom == assinante->id) && (assinante->status == True)) {
             switch (campo){
             case 1:
-                strcpy(assinante->nome, novoValor);
+                strcpy(assinante->nome, novoValor); // copia o novo valor para o campo nome
                 break;
             case 2:
                 strcpy(assinante->email, novoValor);;

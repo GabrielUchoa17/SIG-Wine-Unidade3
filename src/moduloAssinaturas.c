@@ -326,7 +326,9 @@ Assinatura* salvarAssinaturas() {
 
 Assinatura* criarAssinatura() {
     Assinatura* assinatura = (Assinatura*) malloc(sizeof(Assinatura));
-    if (!assinatura) return NULL;
+    if (!assinatura) {
+        return NULL;
+    }
     assinatura->id = recuperarIdAssinaturas();
     return assinatura;
 }

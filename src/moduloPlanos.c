@@ -335,7 +335,7 @@ Plano* quantidadePlanos(void) {
                 }
                 return NULL;
             }
-            memcpy(novoPlano, planoLido, sizeof(Plano));
+            memcpy(novoPlano, planoLido, sizeof(Plano)); // destino, origem, tamanho, copiar um bloco de memória para outro
             novoPlano->prox = NULL; 
 
             if (lista == NULL) {
@@ -389,7 +389,9 @@ Plano* salvarPlanos() {
 
 Plano* criarPlano() {
     Plano* plano = (Plano*) malloc(sizeof(Plano));
-    if(!plano) return NULL;
+    if(!plano) {
+        return NULL;
+    }
 
     plano->id = recuperarIdPlanos();
     return plano;
